@@ -1,8 +1,8 @@
-import iconCamping from "../img/icon-camping.png";
-import iconLuxe from "../img/icon-luxe.png";
+import iconPool from "../img/icon-piscine.png";
 import iconSea from "../img/icon-mer.png";
 import iconView from "../img/icon-vue.png";
-import iconPool from "../img/icon-piscine.png";
+import iconLuxe from "../img/icon-luxe.png";
+import iconCamping from "../img/icon-camping.png";
 
 const Filters = () => {
   return (
