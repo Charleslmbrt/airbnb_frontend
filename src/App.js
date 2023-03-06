@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Publish from "./pages/Publish";
 
 function App() {
   const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
@@ -39,6 +40,7 @@ function App() {
             path="/user/login"
             element={<Login handleToken={handleToken} />}
           />
+          <Route path="/room/publish" element={<Publish />} />
         </Routes>
       </BrowserRouter>
     </div>
