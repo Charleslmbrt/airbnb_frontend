@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
   geocodeByPlaceId,
   getLatLng,
 } from "react-places-autocomplete";
-
-// imports components
 
 // imports assets
 import homeAirbnbVideo from "../img/video_home_airbnb.mp4";
@@ -15,13 +13,15 @@ import logoAirbnb from "../img/logo-airbnb.svg";
 const Publish = () => {
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+  const [guestCounter, setGuestCounter] = useState(0);
+  const [bedroomsCounter, setBedroomsCounter] = useState(0);
 
   const handleSelect = async (value) => {
-    const results = await geocodeByAddress(value);
-    const coordinatesResults = await getLatLng(results[0]);
-    console.log(coordinatesResults);
-    setAddress(value);
-    setCoordinates(coordinatesResults);
+    const addressResult = await geocodeByAddress(value);
+    const coordinatesResult = await getLatLng(addressResult[0]);
+    console.log(coordinatesResult);
+    setAddress(addressResult);
+    setCoordinates(coordinatesResult);
   };
 
   return (
@@ -49,7 +49,7 @@ const Publish = () => {
           </p>
         </div>
       </div>
-      <div className="right mx-5 flex flex-col">
+      <div className="right mx-5 flex flex-col mb-[200px]">
         <div>
           <p className="text-xl mt-10">
             Which of these best describes your place?
@@ -66,10 +66,14 @@ const Publish = () => {
           />
         </div>
         <div>
-          <p className="text-xl mt-10">Where's your place located?</p>
-          <p>lat : {coordinates.lat}</p>
+          <h1 className="text-xl mt-10">Where's your place located?</h1>
+          <p className="text-sm text-slate-400">
+            Your address is only shared with guests after they’ve made a
+            reservation.
+          </p>
+          {/* <p>lat : {coordinates.lat}</p>
           <p>lng : {coordinates.lng}</p>
-          <p>Address : {address}</p>
+          <p>Address : {address}</p> */}
           <PlacesAutocomplete
             value={address}
             onChange={setAddress}
@@ -114,15 +118,84 @@ const Publish = () => {
               </div>
             )}
           </PlacesAutocomplete>
-          {/* <input
-            type="text"
-            placeholder="Enter the postal address of your Airbnb location."
-            value=""
-            onChange={(event) => {
-              //   setEmail(event.target.value);
-            }}
-            className="w-full placeholder-slate-400 mt-5 rounded-xl h-14 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
-          /> */}
+        </div>
+        <div>
+          <h1 className="text-xl mt-10">Share some basics about your place.</h1>
+          <p className="text-sm text-slate-400">
+            You'll add more details later, like bed types.
+          </p>
+          <div className="flex justify-between items-center mt-5">
+            <p>Guests</p>
+
+            <div className="counter-basics flex items-center">
+              <button
+                className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
+                  guestCounter <= 0
+                    ? "text-slate-300 border-slate-300"
+                    : "text-slate-700 border-slate-700"
+                }`}
+                onClick={() => {
+                  if (guestCounter > 0) {
+                    setGuestCounter(guestCounter - 1);
+                  }
+                }}
+              >
+                -
+              </button>
+              <p
+                className={`w-14 text-center ${
+                  guestCounter <= 0 ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
+                {guestCounter}
+              </p>
+              <button
+                className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
+                onClick={() => {
+                  setGuestCounter(guestCounter + 1);
+                }}
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div className="sep h-[1px] w-full bg-slate-200 my-5"></div>
+          <div className="flex justify-between items-center mt-5">
+            <p>Bedrooms</p>
+
+            <div className="counter-basics flex items-center">
+              <button
+                className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
+                  bedroomsCounter <= 0
+                    ? "text-slate-300 border-slate-300"
+                    : "text-slate-700 border-slate-700"
+                }`}
+                onClick={() => {
+                  if (bedroomsCounter > 0) {
+                    setBedroomsCounter(bedroomsCounter - 1);
+                  }
+                }}
+              >
+                -
+              </button>
+              <p
+                className={`w-14 text-center ${
+                  bedroomsCounter <= 0 ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
+                {bedroomsCounter}
+              </p>
+              <button
+                className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
+                onClick={() => {
+                  setBedroomsCounter(bedroomsCounter + 1);
+                }}
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div className="sep h-[1px] w-full bg-slate-200 my-5"></div>
         </div>
       </div>
     </>
