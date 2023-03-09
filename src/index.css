@@ -3,11 +3,34 @@
 @tailwind utilities;
 
 /* Drag and Drop CSS */
-
 .sc-beySbM.ejhWCc {
   @apply bg-neutral-50 w-full rounded-xl border-[1px] border-solid border-slate-300 text-slate-900 px-3 sm:max-w-[450px];
 }
 
 .sc-beySbM.ejhWCc svg {
   @apply hidden;
+}
+
+/* Select input CSS */
+
+/* Reset */
+select {
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+select.classic {
+  background-image: linear-gradient(
+      45deg,
+      transparent 50%,
+      rgb(107, 107, 107) 50%
+    ),
+    linear-gradient(135deg, rgb(107, 107, 107) 50%, transparent 50%),
+    linear-gradient(to right, rgb(250, 250, 250), rgb(250, 250, 250));
+  background-position: calc(100% - 28px) calc(1em + 14px),
+    calc(100% - 23px) calc(1em + 14px), 100%;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+  background-repeat: no-repeat;
 }

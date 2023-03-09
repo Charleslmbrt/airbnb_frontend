@@ -11,9 +11,6 @@ import { FileUploader } from "react-drag-drop-files";
 import homeAirbnbVideo from "../img/video_home_airbnb.mp4";
 import logoAirbnb from "../img/logo-airbnb.svg";
 
-//import components
-// import DragDropFiles from "../components/DragDropFiles";
-
 const Publish = () => {
   const [placeType, setPlaceType] = useState("");
   const [address, setAddress] = useState("");
@@ -23,17 +20,26 @@ const Publish = () => {
   const [bedsCounter, setBedsCounter] = useState(0);
   const [bathroomsCounter, setBathroomsCounter] = useState(0);
   const [amenities, setAmenities] = useState("");
-
+  const [file, setFile] = useState(null);
+  const [title, setTitle] = useState("");
   const [describe, setDescribe] = useState("");
-  const maxLength = 50;
-  const handleDescribe = (e) => {
+  const [price, setPrice] = useState(90);
+
+  const maxLengthTitle = 50;
+  const handleTitle = (e) => {
     const textAreaValue = e.target.value;
-    if (textAreaValue.length <= maxLength) {
-      setDescribe(textAreaValue);
+    if (textAreaValue.length <= maxLengthTitle) {
+      setTitle(textAreaValue);
     }
   };
 
-  const [file, setFile] = useState(null);
+  const maxLengthDescription = 500;
+  const handleDescribe = (e) => {
+    const textAreaValue = e.target.value;
+    if (textAreaValue.length <= maxLengthDescription) {
+      setDescribe(textAreaValue);
+    }
+  };
 
   const handleSelect = async (value) => {
     const addressResult = await geocodeByAddress(value);
@@ -73,21 +79,28 @@ const Publish = () => {
           </p>
         </div>
       </div>
-      <div className="right mx-5 flex flex-col mb-[200px]">
+      <form className="right mx-5 flex flex-col mb-[200px]">
         <div>
           <p className="text-xl mt-10">
             Which of these best describes your place?
           </p>
-
-          <input
-            type="email"
-            placeholder="House, Apartment, Castle, Dome, Tiny home, Yurt..."
+          <select
             value={placeType}
             onChange={(event) => {
               setPlaceType(event.target.value);
             }}
-            className="w-full placeholder-slate-400 mt-5 rounded-xl h-14 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
-          />
+            className="classic appearance-none w-full cursor-pointer mt-5 rounded-xl bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
+          >
+            <option value="">Select an option</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Home">Home</option>
+            <option value="Annex">Annex</option>
+            <option value="Single accomodation">Single accomodation</option>
+            <option value="Guest room">Guest room</option>
+            <option value="Non-residential dwelling">
+              Non-residential dwelling
+            </option>
+          </select>
         </div>
         <div>
           <h1 className="text-xl mt-10">Where's your place located?</h1>
@@ -154,6 +167,7 @@ const Publish = () => {
 
             <div className="counter-basics flex items-center">
               <button
+                type="button"
                 className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
                   guestCounter <= 0
                     ? "text-slate-300 border-slate-300"
@@ -175,6 +189,7 @@ const Publish = () => {
                 {guestCounter}
               </p>
               <button
+                type="button"
                 className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
                 onClick={() => {
                   setGuestCounter(guestCounter + 1);
@@ -190,6 +205,7 @@ const Publish = () => {
 
             <div className="counter-basics flex items-center">
               <button
+                type="button"
                 className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
                   bedroomsCounter <= 0
                     ? "text-slate-300 border-slate-300"
@@ -211,6 +227,7 @@ const Publish = () => {
                 {bedroomsCounter}
               </p>
               <button
+                type="button"
                 className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
                 onClick={() => {
                   setBedroomsCounter(bedroomsCounter + 1);
@@ -226,6 +243,7 @@ const Publish = () => {
 
             <div className="counter-basics flex items-center">
               <button
+                type="button"
                 className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
                   bedsCounter <= 0
                     ? "text-slate-300 border-slate-300"
@@ -247,6 +265,7 @@ const Publish = () => {
                 {bedsCounter}
               </p>
               <button
+                type="button"
                 className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
                 onClick={() => {
                   setBedsCounter(bedsCounter + 1);
@@ -262,6 +281,7 @@ const Publish = () => {
 
             <div className="counter-basics flex items-center">
               <button
+                type="button"
                 className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
                   bathroomsCounter <= 0
                     ? "text-slate-300 border-slate-300"
@@ -283,6 +303,7 @@ const Publish = () => {
                 {bathroomsCounter}
               </p>
               <button
+                type="button"
                 className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
                 onClick={() => {
                   setBathroomsCounter(bathroomsCounter + 1);
@@ -301,7 +322,7 @@ const Publish = () => {
             You can add more amenities after you publish your listing.
           </p>
           <input
-            type="email"
+            type="text"
             placeholder="Wifi, TV, Kitchen, Washer, Pool, BBQ grill, Fire pit..."
             value={amenities}
             onChange={(event) => {
@@ -316,14 +337,13 @@ const Publish = () => {
             You can add 5 pictures maximum.
           </p>
           <div className="mt-5">
-            {/* <DragDropFiles multiple={true} required={true} /> */}
             <FileUploader
               handleChange={handleChange}
               name="file"
               types={fileTypes}
               value={file}
               multiple={true}
-              required={true}
+              // required={true}
             />
           </div>
         </div>
@@ -334,17 +354,77 @@ const Publish = () => {
           </p>
 
           <textarea
-            type="email"
-            placeholder="House, Apartment, Castle, Dome, Tiny home, Yurt..."
-            value={describe}
-            onChange={handleDescribe}
+            type="text"
+            placeholder="My title..."
+            value={title}
+            onChange={handleTitle}
             className="w-full placeholder-slate-400 mt-5 rounded-xl h-40 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
           />
           <p className="text-sm">
-            {describe.length}/{maxLength}
+            {title.length}/{maxLengthTitle}
           </p>
         </div>
-      </div>
+        <div>
+          <h1 className="text-xl mt-10">Create your description</h1>
+          <p className="text-sm text-slate-400">
+            Share what makes your place special.
+          </p>
+
+          <textarea
+            type="text"
+            placeholder="My description..."
+            value={describe}
+            onChange={handleDescribe}
+            className="w-full placeholder-slate-400 mt-5 rounded-xl h-60 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
+          />
+          <p className="text-sm">
+            {describe.length}/{maxLengthDescription}
+          </p>
+        </div>
+        <div>
+          <h1 className="text-xl mt-10">Now, set your price</h1>
+          <p className="text-sm text-slate-400">You can change it anytime.</p>
+          <div className="counter-basics flex items-center w-full border-[1px] border-slate-300 p-10 rounded-xl mt-5 justify-center bg-neutral-50  sm:max-w-[450px]">
+            <button
+              type="button"
+              className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
+                price <= 10
+                  ? "text-slate-300 border-slate-300"
+                  : "text-slate-700 border-slate-700"
+              }`}
+              onClick={() => {
+                if (price > 10) {
+                  setPrice(price - 5);
+                }
+              }}
+            >
+              -
+            </button>
+            <div className="w-2/4 border-[1px] rounded-xl p-5 flex justify-center mx-10 bg-white">
+              <p
+                className={`text-2xl font-bold ${
+                  price <= 10 ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
+                €{price}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
+              onClick={() => {
+                setPrice(price + 5);
+              }}
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <button className="mt-16 w-full  rounded-xl p-5 bg-red-400 text-white sm:max-w-[450px]">
+          Publish my Airbnb
+        </button>
+      </form>
     </>
   );
 };
