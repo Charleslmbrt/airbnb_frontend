@@ -40,7 +40,10 @@ function App() {
             path="/user/login"
             element={<Login handleToken={handleToken} />}
           />
-          <Route path="/room/publish" element={<Publish />} />
+          <Route
+            path="/room/publish"
+            element={<Publish userToken={userToken} />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

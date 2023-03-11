@@ -1,29 +1,66 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
+
+// import packages
+import { Link, Navigate } from "react-router-dom";
 import PlacesAutocomplete, {
   geocodeByAddress,
-  // geocodeByPlaceId,
   getLatLng,
 } from "react-places-autocomplete";
+import axios from "axios";
 import { FileUploader } from "react-drag-drop-files";
 
 // imports assets
 import homeAirbnbVideo from "../img/video_home_airbnb.mp4";
 import logoAirbnb from "../img/logo-airbnb.svg";
 
-const Publish = () => {
-  const [placeType, setPlaceType] = useState("");
+const Publish = ({ userToken }) => {
+  const [type, setType] = useState("");
   const [address, setAddress] = useState("");
-  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
-  const [guestCounter, setGuestCounter] = useState(0);
-  const [bedroomsCounter, setBedroomsCounter] = useState(0);
-  const [bedsCounter, setBedsCounter] = useState(0);
-  const [bathroomsCounter, setBathroomsCounter] = useState(0);
-  const [amenities, setAmenities] = useState("");
-  const [file, setFile] = useState(null);
+  const [location, setLocation] = useState({ lat: null, lng: null });
+  const [guests, setGuests] = useState(0);
+  const [bedrooms, setBedrooms] = useState(0);
+  const [beds, setBeds] = useState(0);
+  const [bathrooms, setBathrooms] = useState(0);
+  const [options, setOptions] = useState("");
+  const [pictures, setPictures] = useState(null);
   const [title, setTitle] = useState("");
-  const [describe, setDescribe] = useState("");
+  const [description, setDescription] = useState("");
   const [price, setPrice] = useState(90);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("type", type);
+    formData.append("guests", guests);
+    formData.append("bedrooms", bedrooms);
+    formData.append("beds", beds);
+    formData.append("bathrooms", bathrooms);
+    for (let i = 0; i < pictures.length; i++) {
+      formData.append("pictures", pictures[i]);
+    }
+    formData.append("location", location);
+    formData.append("options", options);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/room/publish",
+        formData,
+        {
+          headers: {
+            authorization: `Bearer ${userToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const maxLengthTitle = 50;
   const handleTitle = (e) => {
@@ -37,7 +74,7 @@ const Publish = () => {
   const handleDescribe = (e) => {
     const textAreaValue = e.target.value;
     if (textAreaValue.length <= maxLengthDescription) {
-      setDescribe(textAreaValue);
+      setDescription(textAreaValue);
     }
   };
 
@@ -45,16 +82,16 @@ const Publish = () => {
     const addressResult = await geocodeByAddress(value);
     const coordinatesResult = await getLatLng(addressResult[0]);
     setAddress(value);
-    setCoordinates(coordinatesResult);
+    setLocation(coordinatesResult);
   };
 
   const fileTypes = ["JPG", "PNG", "GIF", "WEBP", "JPEG"];
 
   const handleChange = (file) => {
-    setFile(file);
+    setPictures(file);
   };
 
-  return (
+  return userToken ? (
     <>
       <div className="flex justify-center mt-5">
         <Link to="/">
@@ -79,15 +116,15 @@ const Publish = () => {
           </p>
         </div>
       </div>
-      <form className="right mx-5 flex flex-col mb-[200px]">
+      <div className="right mx-5 flex flex-col mb-[200px]">
         <div>
           <p className="text-xl mt-10">
             Which of these best describes your place?
           </p>
           <select
-            value={placeType}
+            value={type}
             onChange={(event) => {
-              setPlaceType(event.target.value);
+              setType(event.target.value);
             }}
             className="classic appearance-none w-full cursor-pointer mt-5 rounded-xl bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
           >
@@ -108,8 +145,8 @@ const Publish = () => {
             Your address is only shared with guests after they’ve made a
             reservation.
           </p>
-          <p>lat : {coordinates.lat}</p>
-          <p>lng : {coordinates.lng}</p>
+          <p>lat : {location.lat}</p>
+          <p>lng : {location.lng}</p>
           <p>Address : {address}</p>
 
           <PlacesAutocomplete
@@ -169,13 +206,13 @@ const Publish = () => {
               <button
                 type="button"
                 className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
-                  guestCounter <= 0
+                  guests <= 0
                     ? "text-slate-300 border-slate-300"
                     : "text-slate-700 border-slate-700"
                 }`}
                 onClick={() => {
-                  if (guestCounter > 0) {
-                    setGuestCounter(guestCounter - 1);
+                  if (guests > 0) {
+                    setGuests(guests - 1);
                   }
                 }}
               >
@@ -183,16 +220,16 @@ const Publish = () => {
               </button>
               <p
                 className={`w-14 text-center ${
-                  guestCounter <= 0 ? "text-slate-300" : "text-slate-700"
+                  guests <= 0 ? "text-slate-300" : "text-slate-700"
                 }`}
               >
-                {guestCounter}
+                {guests}
               </p>
               <button
                 type="button"
                 className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
                 onClick={() => {
-                  setGuestCounter(guestCounter + 1);
+                  setGuests(guests + 1);
                 }}
               >
                 +
@@ -207,13 +244,13 @@ const Publish = () => {
               <button
                 type="button"
                 className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
-                  bedroomsCounter <= 0
+                  bedrooms <= 0
                     ? "text-slate-300 border-slate-300"
                     : "text-slate-700 border-slate-700"
                 }`}
                 onClick={() => {
-                  if (bedroomsCounter > 0) {
-                    setBedroomsCounter(bedroomsCounter - 1);
+                  if (bedrooms > 0) {
+                    setBedrooms(bedrooms - 1);
                   }
                 }}
               >
@@ -221,16 +258,16 @@ const Publish = () => {
               </button>
               <p
                 className={`w-14 text-center ${
-                  bedroomsCounter <= 0 ? "text-slate-300" : "text-slate-700"
+                  bedrooms <= 0 ? "text-slate-300" : "text-slate-700"
                 }`}
               >
-                {bedroomsCounter}
+                {bedrooms}
               </p>
               <button
                 type="button"
                 className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
                 onClick={() => {
-                  setBedroomsCounter(bedroomsCounter + 1);
+                  setBedrooms(bedrooms + 1);
                 }}
               >
                 +
@@ -245,13 +282,13 @@ const Publish = () => {
               <button
                 type="button"
                 className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
-                  bedsCounter <= 0
+                  beds <= 0
                     ? "text-slate-300 border-slate-300"
                     : "text-slate-700 border-slate-700"
                 }`}
                 onClick={() => {
-                  if (bedsCounter > 0) {
-                    setBedsCounter(bedsCounter - 1);
+                  if (beds > 0) {
+                    setBeds(beds - 1);
                   }
                 }}
               >
@@ -259,16 +296,16 @@ const Publish = () => {
               </button>
               <p
                 className={`w-14 text-center ${
-                  bedsCounter <= 0 ? "text-slate-300" : "text-slate-700"
+                  beds <= 0 ? "text-slate-300" : "text-slate-700"
                 }`}
               >
-                {bedsCounter}
+                {beds}
               </p>
               <button
                 type="button"
                 className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
                 onClick={() => {
-                  setBedsCounter(bedsCounter + 1);
+                  setBeds(beds + 1);
                 }}
               >
                 +
@@ -283,13 +320,13 @@ const Publish = () => {
               <button
                 type="button"
                 className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
-                  bathroomsCounter <= 0
+                  bathrooms <= 0
                     ? "text-slate-300 border-slate-300"
                     : "text-slate-700 border-slate-700"
                 }`}
                 onClick={() => {
-                  if (bathroomsCounter > 0) {
-                    setBathroomsCounter(bathroomsCounter - 1);
+                  if (bathrooms > 0) {
+                    setBathrooms(bathrooms - 1);
                   }
                 }}
               >
@@ -297,16 +334,16 @@ const Publish = () => {
               </button>
               <p
                 className={`w-14 text-center ${
-                  bathroomsCounter <= 0 ? "text-slate-300" : "text-slate-700"
+                  bathrooms <= 0 ? "text-slate-300" : "text-slate-700"
                 }`}
               >
-                {bathroomsCounter}
+                {bathrooms}
               </p>
               <button
                 type="button"
                 className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
                 onClick={() => {
-                  setBathroomsCounter(bathroomsCounter + 1);
+                  setBathrooms(bathrooms + 1);
                 }}
               >
                 +
@@ -324,9 +361,9 @@ const Publish = () => {
           <input
             type="text"
             placeholder="Wifi, TV, Kitchen, Washer, Pool, BBQ grill, Fire pit..."
-            value={amenities}
+            value={options}
             onChange={(event) => {
-              setAmenities(event.target.value);
+              setOptions(event.target.value);
             }}
             className="w-full placeholder-slate-400 mt-5 rounded-xl h-14 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
           />
@@ -337,11 +374,18 @@ const Publish = () => {
             You can add 5 pictures maximum.
           </p>
           <div className="mt-5">
+            {/* <input
+              type="file"
+              multiple="multiple"
+              onChange={(event) => {
+                setPictures(event.target.files);
+                // setPreview(URL.createObjectURL(event.target.files[0]));
+              }}
+            /> */}
             <FileUploader
               handleChange={handleChange}
-              name="file"
               types={fileTypes}
-              value={file}
+              value={pictures}
               multiple={true}
               // required={true}
             />
@@ -373,12 +417,12 @@ const Publish = () => {
           <textarea
             type="text"
             placeholder="My description..."
-            value={describe}
+            value={description}
             onChange={handleDescribe}
             className="w-full placeholder-slate-400 mt-5 rounded-xl h-60 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
           />
           <p className="text-sm">
-            {describe.length}/{maxLengthDescription}
+            {description.length}/{maxLengthDescription}
           </p>
         </div>
         <div>
@@ -421,11 +465,16 @@ const Publish = () => {
             </button>
           </div>
         </div>
-        <button className="mt-16 w-full  rounded-xl p-5 bg-red-400 text-white sm:max-w-[450px]">
+        <button
+          className="mt-16 w-full  rounded-xl p-5 bg-red-400 text-white sm:max-w-[450px]"
+          onClick={handleSubmit}
+        >
           Publish my Airbnb
         </button>
-      </form>
+      </div>
     </>
+  ) : (
+    <Navigate to="/user/login" />
   );
 };
 

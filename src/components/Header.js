@@ -39,6 +39,13 @@ const Header = ({ handleToken, userToken }) => {
       display: true,
     },
     {
+      name: "Airbnb your home",
+      description: "Putting my home on Airbnb.",
+      href: "/user/login",
+      icon: HomeIcon,
+      display: false,
+    },
+    {
       name: "Log out",
       description: "Log out of your account.",
       href: "#",
