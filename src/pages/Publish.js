@@ -23,6 +23,7 @@ const Publish = ({ userToken }) => {
   const [bathrooms, setBathrooms] = useState(0);
   const [options, setOptions] = useState("");
   const [pictures, setPictures] = useState(null);
+  const [preview, setPreview] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(90);
@@ -87,8 +88,21 @@ const Publish = ({ userToken }) => {
 
   const fileTypes = ["JPG", "PNG", "GIF", "WEBP", "JPEG"];
 
-  const handleChange = (file) => {
-    setPictures(file);
+  // const handleChange = async (files) => {
+  //   setPictures(files);
+  //   const array = [];
+  //   for (let i = 0; i < pictures.length; i++) {
+  //     array.push(URL.createObjectURL(pictures[i]));
+  //   }
+  //   setPreview(array);
+  // };
+
+  const handleChange = async (files) => {
+    const urls = await Promise.all(
+      Array.from(files).map((file) => URL.createObjectURL(file))
+    );
+    setPictures(Array.from(files));
+    setPreview(urls);
   };
 
   return userToken ? (
@@ -373,23 +387,30 @@ const Publish = ({ userToken }) => {
           <p className="text-sm text-slate-400">
             You can add 5 pictures maximum.
           </p>
-          <div className="mt-5">
-            {/* <input
-              type="file"
-              multiple="multiple"
-              onChange={(event) => {
-                setPictures(event.target.files);
-                // setPreview(URL.createObjectURL(event.target.files[0]));
-              }}
-            /> */}
-            <FileUploader
-              handleChange={handleChange}
-              types={fileTypes}
-              value={pictures}
-              multiple={true}
-              // required={true}
-            />
-          </div>
+
+          {preview ? (
+            <div>
+              {preview.map((blob) => {
+                return <img src={blob} alt="" />;
+              })}
+              <button
+                onClick={() => {
+                  setPreview("");
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          ) : (
+            <div className="mt-5">
+              <FileUploader
+                handleChange={handleChange}
+                types={fileTypes}
+                value={pictures}
+                multiple={true}
+              />
+            </div>
+          )}
         </div>
         <div>
           <h1 className="text-xl mt-10">Now, let's give your house a title</h1>
