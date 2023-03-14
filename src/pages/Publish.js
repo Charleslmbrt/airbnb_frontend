@@ -13,6 +13,9 @@ import { FileUploader } from "react-drag-drop-files";
 import homeAirbnbVideo from "../img/video_home_airbnb.mp4";
 import logoAirbnb from "../img/logo-airbnb.svg";
 
+// imports components
+import Counter from "../components/Counter";
+
 const Publish = ({ userToken }) => {
   const [type, setType] = useState("");
   const [address, setAddress] = useState("");
@@ -27,6 +30,8 @@ const Publish = ({ userToken }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(90);
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +48,10 @@ const Publish = ({ userToken }) => {
       formData.append("pictures", pictures[i]);
     }
     formData.append("location", location);
+    formData.append("city", city);
+    formData.append("country", country);
     formData.append("options", options);
+    formData.append("address", address);
 
     try {
       const response = await axios.post(
@@ -70,11 +78,21 @@ const Publish = ({ userToken }) => {
     }
   };
 
-  const handleSelect = async (value) => {
+  const handleAddress = async (value) => {
     const addressResult = await geocodeByAddress(value);
     const coordinatesResult = await getLatLng(addressResult[0]);
     setAddress(value);
     setLocation(coordinatesResult);
+    const { address_components } = addressResult[0];
+    const city = address_components.find((comp) =>
+      comp.types.includes("locality")
+    ).long_name;
+    const country = address_components.find((comp) =>
+      comp.types.includes("country")
+    ).long_name;
+
+    setCity(city);
+    setCountry(country);
   };
 
   const fileTypes = ["JPG", "PNG", "GIF", "WEBP", "JPEG"];
@@ -141,14 +159,16 @@ const Publish = ({ userToken }) => {
             Your address is only shared with guests after they’ve made a
             reservation.
           </p>
-          <p>lat : {location.lat}</p>
+          {/* <p>lat : {location.lat}</p>
           <p>lng : {location.lng}</p>
           <p>Address : {address}</p>
+          <p>City : {city}</p>
+          <p>Country : {country}</p> */}
 
           <PlacesAutocomplete
             value={address}
             onChange={setAddress}
-            onSelect={handleSelect}
+            onSelect={handleAddress}
           >
             {({
               getInputProps,
@@ -195,157 +215,34 @@ const Publish = ({ userToken }) => {
           <p className="text-sm text-slate-400">
             You'll add more details later, like bed types.
           </p>
-          <div className="flex justify-between items-center mt-5">
-            <p>Guests</p>
 
-            <div className="counter-basics flex items-center">
-              <button
-                type="button"
-                className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
-                  guests <= 0
-                    ? "text-slate-300 border-slate-300"
-                    : "text-slate-700 border-slate-700"
-                }`}
-                onClick={() => {
-                  if (guests > 0) {
-                    setGuests(guests - 1);
-                  }
-                }}
-              >
-                -
-              </button>
-              <p
-                className={`w-14 text-center ${
-                  guests <= 0 ? "text-slate-300" : "text-slate-700"
-                }`}
-              >
-                {guests}
-              </p>
-              <button
-                type="button"
-                className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
-                onClick={() => {
-                  setGuests(guests + 1);
-                }}
-              >
-                +
-              </button>
-            </div>
-          </div>
+          <Counter
+            label="Guests"
+            count={guests}
+            onDecrement={setGuests}
+            onIncrement={setGuests}
+          />
           <div className="sep h-[1px] w-full bg-slate-200 my-5"></div>
-          <div className="flex justify-between items-center mt-5">
-            <p>Bedrooms</p>
-
-            <div className="counter-basics flex items-center">
-              <button
-                type="button"
-                className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
-                  bedrooms <= 0
-                    ? "text-slate-300 border-slate-300"
-                    : "text-slate-700 border-slate-700"
-                }`}
-                onClick={() => {
-                  if (bedrooms > 0) {
-                    setBedrooms(bedrooms - 1);
-                  }
-                }}
-              >
-                -
-              </button>
-              <p
-                className={`w-14 text-center ${
-                  bedrooms <= 0 ? "text-slate-300" : "text-slate-700"
-                }`}
-              >
-                {bedrooms}
-              </p>
-              <button
-                type="button"
-                className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
-                onClick={() => {
-                  setBedrooms(bedrooms + 1);
-                }}
-              >
-                +
-              </button>
-            </div>
-          </div>
+          <Counter
+            label="Bedrooms"
+            count={bedrooms}
+            onDecrement={setBedrooms}
+            onIncrement={setBedrooms}
+          />
           <div className="sep h-[1px] w-full bg-slate-200 my-5"></div>
-          <div className="flex justify-between items-center mt-5">
-            <p>Beds</p>
-
-            <div className="counter-basics flex items-center">
-              <button
-                type="button"
-                className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
-                  beds <= 0
-                    ? "text-slate-300 border-slate-300"
-                    : "text-slate-700 border-slate-700"
-                }`}
-                onClick={() => {
-                  if (beds > 0) {
-                    setBeds(beds - 1);
-                  }
-                }}
-              >
-                -
-              </button>
-              <p
-                className={`w-14 text-center ${
-                  beds <= 0 ? "text-slate-300" : "text-slate-700"
-                }`}
-              >
-                {beds}
-              </p>
-              <button
-                type="button"
-                className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
-                onClick={() => {
-                  setBeds(beds + 1);
-                }}
-              >
-                +
-              </button>
-            </div>
-          </div>
+          <Counter
+            label="Beds"
+            count={beds}
+            onDecrement={setBeds}
+            onIncrement={setBeds}
+          />
           <div className="sep h-[1px] w-full bg-slate-200 my-5"></div>
-          <div className="flex justify-between items-center mt-5">
-            <p>Bathrooms</p>
-
-            <div className="counter-basics flex items-center">
-              <button
-                type="button"
-                className={`flex items-center justify-center w-9 h-9 rounded-full border-[1px] ${
-                  bathrooms <= 0
-                    ? "text-slate-300 border-slate-300"
-                    : "text-slate-700 border-slate-700"
-                }`}
-                onClick={() => {
-                  if (bathrooms > 0) {
-                    setBathrooms(bathrooms - 1);
-                  }
-                }}
-              >
-                -
-              </button>
-              <p
-                className={`w-14 text-center ${
-                  bathrooms <= 0 ? "text-slate-300" : "text-slate-700"
-                }`}
-              >
-                {bathrooms}
-              </p>
-              <button
-                type="button"
-                className="flex items-center justify-center w-9 h-9 text-sm rounded-full border-[1px] border-slate-700"
-                onClick={() => {
-                  setBathrooms(bathrooms + 1);
-                }}
-              >
-                +
-              </button>
-            </div>
-          </div>
+          <Counter
+            label="Bathrooms"
+            count={bathrooms}
+            onDecrement={setBathrooms}
+            onIncrement={setBathrooms}
+          />
         </div>
         <div>
           <h1 className="text-xl mt-10">
@@ -365,24 +262,37 @@ const Publish = ({ userToken }) => {
           />
         </div>
         <div>
-          <h1 className="text-xl mt-10">Ta-da! How does this look?</h1>
-          <p className="text-sm text-slate-400">
-            You can add 5 pictures maximum.
-          </p>
+          <div className="flex  sm:max-w-[450px] place-items-end">
+            <div className="text grow">
+              <h1 className="text-xl mt-10">Ta-da! How does this look?</h1>
+              <p className="text-sm text-slate-400">
+                You can add 5 pictures maximum.
+              </p>
+            </div>
+            <button
+              className="mt-5 w-30 h-10 text-sm rounded-xl px-2 bg-red-400 text-white "
+              onClick={() => {
+                setPreview("");
+              }}
+            >
+              Remove pictures
+            </button>
+          </div>
 
           {preview ? (
-            <div>
-              {preview.map((blob) => {
-                return <img src={blob} alt="" />;
-              })}
-              <button
-                onClick={() => {
-                  setPreview("");
-                }}
-              >
-                Remove
-              </button>
-            </div>
+            <>
+              <div className="flex flex-row flex-nowrap mt-5 overflow-hidden overflow-x-scroll sm:max-w-[450px]">
+                {preview.map((blob) => {
+                  return (
+                    <img
+                      src={blob}
+                      alt=""
+                      className="max-h-64 w-64 object-cover mr-1 last:mr-0"
+                    />
+                  );
+                })}
+              </div>
+            </>
           ) : (
             <div className="mt-5">
               <FileUploader
