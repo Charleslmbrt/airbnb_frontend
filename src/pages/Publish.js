@@ -63,19 +63,10 @@ const Publish = ({ userToken }) => {
     }
   };
 
-  const maxLengthTitle = 50;
-  const handleTitle = (e) => {
-    const textAreaValue = e.target.value;
-    if (textAreaValue.length <= maxLengthTitle) {
-      setTitle(textAreaValue);
-    }
-  };
-
-  const maxLengthDescription = 500;
-  const handleDescribe = (e) => {
-    const textAreaValue = e.target.value;
-    if (textAreaValue.length <= maxLengthDescription) {
-      setDescription(textAreaValue);
+  const handleMaxLength = (setValue, maxLength) => (event) => {
+    const textAreaValue = event.target.value;
+    if (textAreaValue.length <= maxLength) {
+      setValue(textAreaValue);
     }
   };
 
@@ -87,15 +78,6 @@ const Publish = ({ userToken }) => {
   };
 
   const fileTypes = ["JPG", "PNG", "GIF", "WEBP", "JPEG"];
-
-  // const handleChange = async (files) => {
-  //   setPictures(files);
-  //   const array = [];
-  //   for (let i = 0; i < pictures.length; i++) {
-  //     array.push(URL.createObjectURL(pictures[i]));
-  //   }
-  //   setPreview(array);
-  // };
 
   const handleChange = async (files) => {
     const urls = await Promise.all(
@@ -422,12 +404,10 @@ const Publish = ({ userToken }) => {
             type="text"
             placeholder="My title..."
             value={title}
-            onChange={handleTitle}
+            onChange={handleMaxLength(setTitle, 50)}
             className="w-full placeholder-slate-400 mt-5 rounded-xl h-40 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
           />
-          <p className="text-sm">
-            {title.length}/{maxLengthTitle}
-          </p>
+          <p className="text-sm">{title.length}/50</p>
         </div>
         <div>
           <h1 className="text-xl mt-10">Create your description</h1>
@@ -439,12 +419,10 @@ const Publish = ({ userToken }) => {
             type="text"
             placeholder="My description..."
             value={description}
-            onChange={handleDescribe}
+            onChange={handleMaxLength(setDescription, 500)}
             className="w-full placeholder-slate-400 mt-5 rounded-xl h-60 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
           />
-          <p className="text-sm">
-            {description.length}/{maxLengthDescription}
-          </p>
+          <p className="text-sm">{description.length}/500</p>
         </div>
         <div>
           <h1 className="text-xl mt-10">Now, set your price</h1>
