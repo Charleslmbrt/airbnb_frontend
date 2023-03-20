@@ -1,5 +1,5 @@
 // imports components
-import Counter from "../publish/Counter";
+import Counter from "./Counter";
 
 const BasicsPublish = ({
   guests,

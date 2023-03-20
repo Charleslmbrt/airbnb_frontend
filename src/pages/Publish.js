@@ -8,14 +8,16 @@ import axios from "axios";
 import logoAirbnb from "../img/logo-airbnb.svg";
 
 // imports components
-import IntroPublish from "../components/publish/IntroPublish";
-import TypesPublish from "../components/publish/TypesPublish";
-import LocationPublish from "../components/publish/LocationPublish";
-import BasicsPublish from "../components/publish/BasicsPublish";
-import OptionsPublish from "../components/publish/OptionsPublish";
-import PicturesPublish from "../components/publish/PicturesPublish";
-import DescriptionPublish from "../components/publish/DescriptionPublish";
-import PricePublish from "../components/publish/PricePublish";
+import Started from "../components/publish/Started";
+import Intro from "../components/publish/Intro";
+import Types from "../components/publish/Types";
+import Location from "../components/publish/Location";
+import Basics from "../components/publish/Basics";
+import Options from "../components/publish/Options";
+import Pictures from "../components/publish/Pictures";
+import Description from "../components/publish/Description";
+import Price from "../components/publish/Price";
+import Submit from "../components/publish/Submit";
 
 const Publish = ({ userToken }) => {
   const [type, setType] = useState("");
@@ -34,74 +36,6 @@ const Publish = ({ userToken }) => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(90);
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  const steps = [
-    {
-      title: "Intro",
-      content: <IntroPublish />,
-    },
-    {
-      title: "Types",
-      content: <TypesPublish type={type} setType={setType} />,
-    },
-    {
-      title: "Location",
-      content: (
-        <LocationPublish
-          address={address}
-          setAddress={setAddress}
-          setLocation={setLocation}
-          setCity={setCity}
-          setCountry={setCountry}
-        />
-      ),
-    },
-    {
-      title: "Basics",
-      content: (
-        <BasicsPublish
-          guests={guests}
-          setGuests={setGuests}
-          bedrooms={bedrooms}
-          setBedrooms={setBedrooms}
-          beds={beds}
-          setBeds={setBeds}
-          bathrooms={bathrooms}
-          setBathrooms={setBathrooms}
-        />
-      ),
-    },
-    {
-      title: "Options",
-      content: <OptionsPublish options={options} setOptions={setOptions} />,
-    },
-    {
-      title: "Pictures",
-      content: (
-        <PicturesPublish
-          preview={preview}
-          setPreview={setPreview}
-          pictures={pictures}
-          setPictures={setPictures}
-        />
-      ),
-    },
-    {
-      title: "Description",
-      content: (
-        <DescriptionPublish
-          title={title}
-          setTitle={setTitle}
-          description={description}
-          setDescription={setDescription}
-        />
-      ),
-    },
-    {
-      title: "Price",
-      content: <PricePublish price={price} setPrice={setPrice} />,
-    },
-  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -134,39 +68,158 @@ const Publish = ({ userToken }) => {
           },
         }
       );
-
       console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const steps = [
+    {
+      title: "Started",
+      content: <Started />,
+      display: false,
+    },
+    {
+      title: "Intro",
+      content: <Intro />,
+      display: true,
+    },
+    {
+      title: "Types",
+      content: <Types type={type} setType={setType} />,
+      display: true,
+    },
+    {
+      title: "Location",
+      content: (
+        <Location
+          address={address}
+          setAddress={setAddress}
+          setLocation={setLocation}
+          setCity={setCity}
+          setCountry={setCountry}
+        />
+      ),
+      display: true,
+    },
+    {
+      title: "Basics",
+      content: (
+        <Basics
+          guests={guests}
+          setGuests={setGuests}
+          bedrooms={bedrooms}
+          setBedrooms={setBedrooms}
+          beds={beds}
+          setBeds={setBeds}
+          bathrooms={bathrooms}
+          setBathrooms={setBathrooms}
+        />
+      ),
+      display: true,
+    },
+    {
+      title: "Options",
+      content: <Options options={options} setOptions={setOptions} />,
+      display: true,
+    },
+    {
+      title: "Pictures",
+      content: (
+        <Pictures
+          preview={preview}
+          setPreview={setPreview}
+          pictures={pictures}
+          setPictures={setPictures}
+        />
+      ),
+      display: true,
+    },
+    {
+      title: "Description",
+      content: (
+        <Description
+          title={title}
+          setTitle={setTitle}
+          description={description}
+          setDescription={setDescription}
+        />
+      ),
+      display: true,
+    },
+    {
+      title: "Price",
+      content: <Price price={price} setPrice={setPrice} />,
+      display: true,
+    },
+    {
+      title: "Submit",
+      content: <Submit handleSubmit={handleSubmit} />,
+      display: true,
+    },
+  ];
+
+  const goToNextSlide = () => {
+    setCurrentSlide((prev) => prev + 1);
+  };
+
+  const goToPrevSlide = () => {
+    setCurrentSlide((prev) => prev - 1);
+  };
+
   return userToken ? (
     <>
-      <div className="flex justify-center mt-5">
-        <Link to="/">
-          <img src={logoAirbnb} alt="Logo Airbnb" className="h-16" />
-        </Link>
-      </div>
+      <div className="flex flex-col items-center justify-between h-screen">
+        <div className="flex justify-center mt-5">
+          <Link to="/">
+            <img src={logoAirbnb} alt="Logo Airbnb" className="h-16" />
+          </Link>
+        </div>
 
-      <BasicsPublish
-        guests={guests}
-        setGuests={setGuests}
-        bedrooms={bedrooms}
-        setBedrooms={setBedrooms}
-        beds={beds}
-        setBeds={setBeds}
-        bathrooms={bathrooms}
-        setBathrooms={setBathrooms}
-      />
+        {/* <h1 className="text-4xl font-bold mb-4">
+          Étape {currentSlide + 1} : {steps[currentSlide].title}
+        </h1> */}
+        <p className="text-lg mb-8">{steps[currentSlide].content}</p>
 
-      <div className="right mx-5 flex flex-col mb-[50px]">
-        <button
-          className="mt-16 w-full  rounded-xl p-5 bg-red-400 text-white sm:max-w-[450px]"
-          onClick={handleSubmit}
-        >
-          Publish my Airbnb
-        </button>
+        {steps[currentSlide].display === false ? (
+          <button
+            className={`px-4 py-2 ${
+              currentSlide === steps.length - 1
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
+            onClick={goToNextSlide}
+            disabled={currentSlide === steps.length - 1}
+          >
+            Get started
+          </button>
+        ) : (
+          <div className="flex">
+            <button
+              className={`px-4 py-2 mr-4 ${
+                currentSlide === 0
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
+              onClick={goToPrevSlide}
+              disabled={currentSlide === 0}
+            >
+              Précédent
+            </button>
+            <button
+              className={`px-4 py-2 ${
+                currentSlide === steps.length - 1
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
+              onClick={goToNextSlide}
+              disabled={currentSlide === steps.length - 1}
+            >
+              Suivant
+            </button>
+          </div>
+        )}
       </div>
     </>
   ) : (
@@ -175,61 +228,3 @@ const Publish = ({ userToken }) => {
 };
 
 export default Publish;
-
-// import { useState } from "react";
-
-// function Slides() {
-//   const [currentSlide, setCurrentSlide] = useState(0);
-
-//   const steps = [
-//     {
-//       title: "Première étape",
-//       content: "Contenu de la première étape",
-//     },
-//     {
-//       title: "Deuxième étape",
-//       content: "Contenu de la deuxième étape",
-//     },
-//     {
-//       title: "Troisième étape",
-//       content: "Contenu de la troisième étape",
-//     },
-//   ];
-
-//   const goToNextSlide = () => {
-//     setCurrentSlide((prev) => prev + 1);
-//   };
-
-//   const goToPrevSlide = () => {
-//     setCurrentSlide((prev) => prev - 1);
-//   };
-
-//   return (
-//     <div className="flex flex-col items-center justify-center h-screen">
-//       <h1 className="text-4xl font-bold mb-4">
-//         Étape {currentSlide + 1} : {steps[currentSlide].title}
-//       </h1>
-//       <p className="text-lg mb-8">{steps[currentSlide].content}</p>
-//       <div className="flex">
-//         <button
-//           className={`px-4 py-2 mr-4 ${
-//             currentSlide === 0 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
-//           }`}
-//           onClick={goToPrevSlide}
-//           disabled={currentSlide === 0}
-//         >
-//           Précédent
-//         </button>
-//         <button
-//           className={`px-4 py-2 ${
-//             currentSlide === steps.length - 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
-//           }`}
-//           onClick={goToNextSlide}
-//           disabled={currentSlide === steps.length - 1}
-//         >
-//           Suivant
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
