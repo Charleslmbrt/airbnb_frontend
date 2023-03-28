@@ -33,14 +33,14 @@ const Home = ({ handleToken, userToken }) => {
       {isLoading === true ? (
         <h1>Loading....</h1>
       ) : (
-        <div className="grid-thumbnails m-5 grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        <div className="grid-thumbnails m-10 grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {roomsData.map((room) => {
             return (
               <div className="thumbnail" key={room._id}>
                 <img
-                  src=""
+                  src={room.picture.secure_url}
                   alt=""
-                  className="h-96 bg-slate-700 rounded-[15px] sm:h-72"
+                  className="h-96 bg-slate-700 rounded-[15px] sm:h-72 object-cover"
                 />
                 <div className="description flex justify-between items-start mt-3 ">
                   <div className="description-text text-sm grow">

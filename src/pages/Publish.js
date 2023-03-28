@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // import packages
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // imports assets
@@ -20,6 +20,8 @@ import Price from "../components/publish/Price";
 import Submit from "../components/publish/Submit";
 
 const Publish = ({ userToken }) => {
+  const navigate = useNavigate();
+
   const [type, setType] = useState("");
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState({ lat: null, lng: null });
@@ -58,8 +60,6 @@ const Publish = ({ userToken }) => {
     formData.append("options", options);
     formData.append("address", address);
 
-    console.log("location", location);
-
     try {
       const response = await axios.post(
         "http://localhost:3000/room/publish",
@@ -72,12 +72,11 @@ const Publish = ({ userToken }) => {
         }
       );
       console.log(response.data);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
-
-  console.log("location 1", location);
 
   const steps = [
     {
@@ -187,10 +186,10 @@ const Publish = ({ userToken }) => {
 
         <div className="text-lg p-5">{steps[currentSlide].content}</div>
 
-        <div className="p-5">
+        <div className="p-5 lg:flex lg:justify-end lg:mr-10">
           {steps[currentSlide].display === false ? (
             <div
-              className="p-3 bg-red-500 rounded-lg text-white text-sm text-center cursor-pointer"
+              className="p-3 bg-red-500 rounded-lg text-white text-sm text-center cursor-pointer lg:w-40 "
               onClick={goToNextSlide}
               disabled={currentSlide === steps.length - 1}
             >

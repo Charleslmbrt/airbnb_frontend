@@ -38,16 +38,18 @@ const started = [
 const Started = () => {
   return (
     <>
-      <div className="flex flex-col">
-        <h1 className="text-4xl mb-10">It’s easy to get started on Airbnb</h1>
-        <ul>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-around ">
+        <h1 className="text-4xl mb-10 lg:text-6xl lg:font-bold lg:max-w-[480px] lg:mx-10 ">
+          It’s easy to get started on Airbnb
+        </h1>
+        <ul className="lg:mx-10">
           {started.map((element) => {
             return (
               <Fragment key={element.id}>
                 <li className="flex">
                   <div className="text grow">
-                    <h2 className="font-bold">{element.title}</h2>
-                    <p className="text-sm text-gray-500 font-light">
+                    <h2 className="font-bold lg:text-2xl">{element.title}</h2>
+                    <p className="text-sm text-gray-500 font-light lg:text-lg lg:max-w-[400px]">
                       {element.description}
                     </p>
                   </div>
@@ -55,7 +57,7 @@ const Started = () => {
                   <img
                     src={icons[element.picture]}
                     alt={element.title}
-                    className="h-[76px] w-[76px] ml-5"
+                    className="h-[76px] w-[76px] ml-5 lg:h-[110px] lg:w-[110px]"
                   />
                 </li>
                 <div className="w-ull h-[1px] bg-gray-200 my-10"></div>

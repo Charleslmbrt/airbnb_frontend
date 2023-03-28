@@ -33,8 +33,6 @@ const LocationPublish = ({
     setCountry(country);
   };
 
-  console.log("location 2", location);
-
   return (
     <>
       <div>

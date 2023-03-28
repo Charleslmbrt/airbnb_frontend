@@ -71,7 +71,7 @@ const Header = ({ handleToken, userToken }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between border-b-[1px] border-slate-200 h-20 w-full py-3 px-5">
+      <div className="flex items-center justify-between border-b-[1px] border-slate-200 h-20 w-full py-3 px-10">
         <div className="">
           <img className="h-12" src={logoAirbnb} alt="logo Airbnb" />
         </div>
