@@ -2,7 +2,7 @@ const OptionsPublish = ({ type, setType }) => {
   return (
     <>
       <div className="mx-10 sm:flex sm:flex-col sm:items-center">
-        <p className="text-3xl mt-10 font-medium">
+        <p className="text-3xl font-medium">
           Which of these best describes your place?
         </p>
         <select

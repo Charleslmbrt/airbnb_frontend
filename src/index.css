@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Reset */
+select {
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 /* Drag and Drop CSS */
 .sc-beySbM.ejhWCc {
   @apply bg-neutral-50 w-full rounded-xl border-[1px] border-solid border-slate-300 text-slate-900 px-3 sm:max-w-[450px];
@@ -12,15 +20,6 @@
 }
 
 /* Select input CSS */
-
-/* Reset */
-select {
-  margin: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 select.classic {
   background-image: linear-gradient(
       45deg,

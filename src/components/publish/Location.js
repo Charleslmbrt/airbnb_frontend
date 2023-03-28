@@ -35,8 +35,8 @@ const LocationPublish = ({
 
   return (
     <>
-      <div>
-        <h1 className="text-xl mt-10">Where's your place located?</h1>
+      <div className="mx-10 sm:flex sm:flex-col sm:items-center">
+        <h1 className="text-3xl font-medium">Where's your place located?</h1>
 
         <PlacesAutocomplete
           value={address}
@@ -54,7 +54,7 @@ const LocationPublish = ({
                 {...getInputProps({
                   placeholder: "Search Places ...",
                   className:
-                    "location-search-input w-full placeholder-slate-400 mt-5 rounded-xl h-14 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]",
+                    "text-xl location-search-input w-full placeholder-slate-400 mt-5 rounded-xl h-14 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 ",
                 })}
               />
               <div className="autocomplete-dropdown-container">
@@ -84,23 +84,9 @@ const LocationPublish = ({
         </PlacesAutocomplete>
         {address && (
           <>
-            <p className="mt-5 text-sm font-bold">
-              Address : <span className="font-light">{address}</span>
+            <p className="mt-5 text-2xl text-gray-400 border-[1px] p-5 rounded-xl">
+              <span className="font-light">{address}</span>
             </p>
-            <div className="flex">
-              <p className="mt-5 text-sm font-bold mr-10">
-                City : <span className="font-light">{city}</span>
-              </p>
-              <p className="mt-5 text-sm font-bold">
-                Country : <span className="font-light">{country}</span>
-              </p>
-              <p className="mt-5 text-sm font-bold">
-                lat : <span className="font-light">{location.lat}</span>
-              </p>
-              <p className="mt-5 text-sm font-bold">
-                lng : <span className="font-light">{location.lng}</span>
-              </p>
-            </div>
           </>
         )}
       </div>
