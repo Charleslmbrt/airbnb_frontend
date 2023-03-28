@@ -5,16 +5,22 @@ import PlacesAutocomplete, {
 
 const LocationPublish = ({
   setAddress,
+  location,
   setLocation,
+  city,
   setCity,
+  country,
   setCountry,
   address,
 }) => {
   const handleAddress = async (value) => {
     const addressResult = await geocodeByAddress(value);
     const coordinatesResult = await getLatLng(addressResult[0]);
+    console.log("coortdinatesResult", coordinatesResult);
+
     setAddress(value);
     setLocation(coordinatesResult);
+
     const { address_components } = addressResult[0];
     const city = address_components.find((comp) =>
       comp.types.includes("locality")
@@ -26,6 +32,8 @@ const LocationPublish = ({
     setCity(city);
     setCountry(country);
   };
+
+  console.log("location 2", location);
 
   return (
     <>
@@ -76,6 +84,27 @@ const LocationPublish = ({
             </div>
           )}
         </PlacesAutocomplete>
+        {address && (
+          <>
+            <p className="mt-5 text-sm font-bold">
+              Address : <span className="font-light">{address}</span>
+            </p>
+            <div className="flex">
+              <p className="mt-5 text-sm font-bold mr-10">
+                City : <span className="font-light">{city}</span>
+              </p>
+              <p className="mt-5 text-sm font-bold">
+                Country : <span className="font-light">{country}</span>
+              </p>
+              <p className="mt-5 text-sm font-bold">
+                lat : <span className="font-light">{location.lat}</span>
+              </p>
+              <p className="mt-5 text-sm font-bold">
+                lng : <span className="font-light">{location.lng}</span>
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

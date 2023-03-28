@@ -4,7 +4,7 @@ import homeAirbnbVideo from "/Users/charles/Documents/_Code/_Projects/airbnb/fro
 const IntroPublish = () => {
   return (
     <>
-      <div className="left mx-5 flex flex-col items-center sm:max-w-[450px] ">
+      <div className="flex flex-col  sm:max-w-[450px] ">
         <video
           className=""
           src={homeAirbnbVideo}

@@ -51,11 +51,14 @@ const Publish = ({ userToken }) => {
     for (let i = 0; i < pictures.length; i++) {
       formData.append("pictures", pictures[i]);
     }
-    formData.append("location", location);
+    formData.append("location_lat", location.lat);
+    formData.append("location_lng", location.lng);
     formData.append("city", city);
     formData.append("country", country);
     formData.append("options", options);
     formData.append("address", address);
+
+    console.log("location", location);
 
     try {
       const response = await axios.post(
@@ -73,6 +76,8 @@ const Publish = ({ userToken }) => {
       console.log(error);
     }
   };
+
+  console.log("location 1", location);
 
   const steps = [
     {
@@ -96,8 +101,11 @@ const Publish = ({ userToken }) => {
         <Location
           address={address}
           setAddress={setAddress}
+          location={location}
           setLocation={setLocation}
+          city={city}
           setCity={setCity}
+          country={country}
           setCountry={setCountry}
         />
       ),
@@ -170,56 +178,47 @@ const Publish = ({ userToken }) => {
 
   return userToken ? (
     <>
-      <div className="flex flex-col items-center justify-between h-screen">
-        <div className="flex justify-center mt-5">
+      <div className="flex flex-col justify-between h-screen">
+        <div className="flex justify-center p-5">
           <Link to="/">
             <img src={logoAirbnb} alt="Logo Airbnb" className="h-16" />
           </Link>
         </div>
 
-        {/* <h1 className="text-4xl font-bold mb-4">
-          Étape {currentSlide + 1} : {steps[currentSlide].title}
-        </h1> */}
-        <p className="text-lg mb-8">{steps[currentSlide].content}</p>
+        <div className="text-lg p-5">{steps[currentSlide].content}</div>
 
-        {steps[currentSlide].display === false ? (
-          <button
-            className={`px-4 py-2 ${
-              currentSlide === steps.length - 1
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
-            }`}
-            onClick={goToNextSlide}
-            disabled={currentSlide === steps.length - 1}
-          >
-            Get started
-          </button>
-        ) : (
-          <div className="flex">
-            <button
-              className={`px-4 py-2 mr-4 ${
-                currentSlide === 0
-                  ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600"
-              }`}
-              onClick={goToPrevSlide}
-              disabled={currentSlide === 0}
-            >
-              Précédent
-            </button>
-            <button
-              className={`px-4 py-2 ${
-                currentSlide === steps.length - 1
-                  ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600"
-              }`}
+        <div className="p-5">
+          {steps[currentSlide].display === false ? (
+            <div
+              className="p-3 bg-red-500 rounded-lg text-white text-sm text-center cursor-pointer"
               onClick={goToNextSlide}
               disabled={currentSlide === steps.length - 1}
             >
-              Suivant
-            </button>
-          </div>
-        )}
+              Get started
+            </div>
+          ) : (
+            <div className="flex justify-between">
+              <div
+                className="px-8 py-3  bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
+                onClick={goToPrevSlide}
+                // disabled={currentSlide === 0}
+              >
+                Back
+              </div>
+              <div
+                className={`px-8 py-3 ${
+                  currentSlide === steps.length - 1
+                    ? " bg-gray-200 rounded-lg text-gray-700 text-sm text-center cursor-not-allowed"
+                    : "bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
+                }`}
+                onClick={goToNextSlide}
+                disabled={currentSlide === steps.length - 1}
+              >
+                Next
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </>
   ) : (
