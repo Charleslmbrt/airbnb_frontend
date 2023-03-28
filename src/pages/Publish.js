@@ -184,10 +184,10 @@ const Publish = ({ userToken }) => {
           </Link>
         </div>
 
-        <div className="text-lg p-5">{steps[currentSlide].content}</div>
+        <div className="text-lg ">{steps[currentSlide].content}</div>
 
-        <div className="p-5 lg:flex lg:justify-end lg:mr-10">
-          {steps[currentSlide].display === false ? (
+        {steps[currentSlide].display === false ? (
+          <div className="px-10 py-5 lg:flex lg:justify-end">
             <div
               className="p-3 bg-red-500 rounded-lg text-white text-sm text-center cursor-pointer lg:w-40 "
               onClick={goToNextSlide}
@@ -195,29 +195,29 @@ const Publish = ({ userToken }) => {
             >
               Get started
             </div>
-          ) : (
-            <div className="flex justify-between">
-              <div
-                className="px-8 py-3  bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
-                onClick={goToPrevSlide}
-                // disabled={currentSlide === 0}
-              >
-                Back
-              </div>
-              <div
-                className={`px-8 py-3 ${
-                  currentSlide === steps.length - 1
-                    ? " bg-gray-200 rounded-lg text-gray-700 text-sm text-center cursor-not-allowed"
-                    : "bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
-                }`}
-                onClick={goToNextSlide}
-                disabled={currentSlide === steps.length - 1}
-              >
-                Next
-              </div>
+          </div>
+        ) : (
+          <div className="px-10 py-5 flex justify-between sm:content-between">
+            <div
+              className="px-8 py-3  bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
+              onClick={goToPrevSlide}
+              // disabled={currentSlide === 0}
+            >
+              Back
             </div>
-          )}
-        </div>
+            <div
+              className={`px-8 py-3 ${
+                currentSlide === steps.length - 1
+                  ? " bg-gray-200 rounded-lg text-gray-700 text-sm text-center cursor-not-allowed"
+                  : "bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
+              }`}
+              onClick={goToNextSlide}
+              disabled={currentSlide === steps.length - 1}
+            >
+              Next
+            </div>
+          </div>
+        )}
       </div>
     </>
   ) : (

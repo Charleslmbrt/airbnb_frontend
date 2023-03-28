@@ -38,7 +38,7 @@ const started = [
 const Started = () => {
   return (
     <>
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-around ">
+      <div className="px-10 flex flex-col lg:flex-row lg:items-center lg:justify-around ">
         <h1 className="text-4xl mb-10 lg:text-6xl lg:font-bold lg:max-w-[480px] lg:mx-10 ">
           It’s easy to get started on Airbnb
         </h1>
