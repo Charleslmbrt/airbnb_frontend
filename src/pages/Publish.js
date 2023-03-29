@@ -184,7 +184,7 @@ const Publish = ({ userToken }) => {
           </Link>
         </div>
 
-        <div className="text-lg p-5">{steps[currentSlide].content}</div>
+        <div className="text-lg">{steps[currentSlide].content}</div>
 
         {steps[currentSlide].display === false ? (
           <div className="px-10 py-5 lg:flex lg:justify-end">
