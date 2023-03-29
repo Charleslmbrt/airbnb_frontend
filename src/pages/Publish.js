@@ -162,7 +162,21 @@ const Publish = ({ userToken }) => {
     },
     {
       title: "Submit",
-      content: <Submit handleSubmit={handleSubmit} />,
+      content: (
+        <Submit
+          handleSubmit={handleSubmit}
+          title={title}
+          price={price}
+          pictures={pictures}
+          address={address}
+          guests={guests}
+          beds={beds}
+          bedrooms={bedrooms}
+          bathrooms={bathrooms}
+          options={options}
+          description={description}
+        />
+      ),
       display: true,
     },
   ];
@@ -197,7 +211,7 @@ const Publish = ({ userToken }) => {
             </div>
           </div>
         ) : (
-          <div className="px-10 py-5 flex justify-between sm:content-between">
+          <div className="fixed bottom-0 w-full border-t-2 bg-white px-10 py-5 flex justify-between sm:content-between">
             <div
               className="px-8 py-3  bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
               onClick={goToPrevSlide}
