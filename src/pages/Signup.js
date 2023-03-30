@@ -31,11 +31,11 @@ const Signup = ({ handleToken }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    FormData.append("email", email);
-    FormData.append("lastname", lastname);
-    FormData.append("firstname", firstname);
-    FormData.append("password", password);
-    FormData.append("picture", picture);
+    formData.append("email", email);
+    formData.append("lastname", lastname);
+    formData.append("firstname", firstname);
+    formData.append("password", password);
+    formData.append("picture", picture);
 
     try {
       if (password === confirmPassword) {
