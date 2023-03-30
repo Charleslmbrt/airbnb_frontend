@@ -13,7 +13,7 @@ const BasicsPublish = ({
 }) => {
   return (
     <>
-      <div className="sm:flex sm:justify-center">
+      <div className="mt-[120px] sm:flex sm:justify-center">
         <div className="mx-10 sm:flex sm:flex-col">
           <h1 className="text-3xl font-medium">
             Share some basics about your place.

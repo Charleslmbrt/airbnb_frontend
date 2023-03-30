@@ -6,7 +6,7 @@ const IntroPublish = () => {
     <>
       <div className="mx-10 flex flex-col items-center justifiy-center lg:flex-row-reverse lg:items-center lg:justify-center">
         <video
-          className="max-w-[500px] lg:max-w-[600px]"
+          className="max-w-[500px] lg:max-w-[700px]"
           src={homeAirbnbVideo}
           type="video/mp4"
           autoPlay
