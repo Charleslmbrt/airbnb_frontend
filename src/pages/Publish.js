@@ -18,6 +18,7 @@ import Pictures from "../components/publish/Pictures";
 import Description from "../components/publish/Description";
 import Price from "../components/publish/Price";
 import Submit from "../components/publish/Submit";
+import ProgressBar from "../components/publish/ProgressBar";
 
 const Publish = ({ userToken }) => {
   const navigate = useNavigate();
@@ -214,24 +215,29 @@ const Publish = ({ userToken }) => {
           </div>
         ) : (
           <div className="h-1/6">
-            <div className="fixed bottom-0 w-full border-t-2 bg-white px-10 py-5 flex justify-between sm:content-between">
-              <div
-                className="px-8 py-3  bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
-                onClick={goToPrevSlide}
-                // disabled={currentSlide === 0}
-              >
-                Back
+            <div className="fixed bottom-0 w-full border-t-2 bg-white  py-5 ">
+              <div className="fixed bottom-0 mb-[85px] w-full">
+                <ProgressBar steps={steps} currentSlide={currentSlide} />
               </div>
-              <div
-                className={`px-8 py-3 ${
-                  currentSlide === steps.length - 1
-                    ? " bg-gray-200 rounded-lg text-gray-700 text-sm text-center cursor-not-allowed"
-                    : "bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
-                }`}
-                onClick={goToNextSlide}
-                disabled={currentSlide === steps.length - 1}
-              >
-                Next
+              <div className="buttons flex justify-between sm:content-between px-10">
+                <div
+                  className="px-8 py-3  bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
+                  onClick={goToPrevSlide}
+                  // disabled={currentSlide === 0}
+                >
+                  Back
+                </div>
+                <div
+                  className={`px-8 py-3 ${
+                    currentSlide === steps.length - 1
+                      ? " bg-gray-200 rounded-lg text-gray-700 text-sm text-center cursor-not-allowed"
+                      : "bg-gray-900 rounded-lg text-white text-sm text-center cursor-pointer"
+                  }`}
+                  onClick={goToNextSlide}
+                  disabled={currentSlide === steps.length - 1}
+                >
+                  Next
+                </div>
               </div>
             </div>
           </div>

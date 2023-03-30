@@ -27,13 +27,15 @@ const Home = ({ handleToken, userToken }) => {
 
   return (
     <>
-      <Header handleToken={handleToken} userToken={userToken} />
-      <Filters />
+      <div className="fixed bg-white w-full top-0">
+        <Header handleToken={handleToken} userToken={userToken} />
+        <Filters />
+      </div>
 
       {isLoading === true ? (
         <h1>Loading....</h1>
       ) : (
-        <div className="grid-thumbnails m-10 grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        <div className="grid-thumbnails m-10 grid gap-5  mt-48 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {roomsData.map((room) => {
             return (
               <div className="thumbnail" key={room._id}>

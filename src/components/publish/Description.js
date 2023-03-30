@@ -8,8 +8,8 @@ const handleMaxLength = (setValue, maxLength) => (event) => {
 const TitlePublish = ({ title, setTitle, description, setDescription }) => {
   return (
     <>
-      <div className="mx-10 sm:flex sm:flex-col sm:items-center">
-        <div className="mt-10 sm:w-1/2">
+      <div className="mx-10  sm:flex sm:flex-col sm:items-center">
+        <div className="sm:w-1/2">
           <div className="text sm:flex sm:items-center sm:flex-col">
             <h1 className="text-3xl font-medium">
               Let's give your house a title
@@ -29,7 +29,7 @@ const TitlePublish = ({ title, setTitle, description, setDescription }) => {
           <p className="text-lg">{title.length}/50</p>
         </div>
 
-        <div className="mt-10 sm:w-1/2">
+        <div className="mt-5 sm:w-1/2">
           <div className="text sm:flex sm:items-center sm:flex-col">
             <h1 className="text-3xl font-medium">Create your description</h1>
             <p className="text-lg text-gray-400">

@@ -82,7 +82,7 @@ const Header = ({ handleToken, userToken }) => {
         <Popover className="relative">
           <Popover.Button
             className="flex outline-none items-center justify-between menu border-[1px] border-slate-2
-      00 rounded-full w-20 h-10 pr-2 pl-3 bg-neutral-50 transition duration-300 hover:drop-shadow-lg cursor-pointer"
+           00 rounded-full w-20 h-10 pr-2 pl-3 bg-neutral-50 transition duration-300 hover:drop-shadow-lg cursor-pointer"
           >
             <div className="burger">
               <div className="w-4 border-t-2 border-slate-400 mb-[2px]"></div>
