@@ -14,7 +14,9 @@ import SearchBar from "../components/SearchBar";
 // Import img
 import logoAirbnb from "../img/logo-airbnb.svg";
 
-const Header = ({ handleToken, userToken }) => {
+const Header = ({ handleConnect, userToken }) => {
+  // console.log("infosUser", infosUser.result.picture.secure_url);
+
   const solutions = [
     {
       name: "Sign up",
@@ -50,7 +52,7 @@ const Header = ({ handleToken, userToken }) => {
       description: "Log out of your account.",
       href: "#",
       onClick: () => {
-        handleToken();
+        handleConnect();
       },
       icon: ArrowLeftOnRectangleIcon,
       display: true,
@@ -89,7 +91,13 @@ const Header = ({ handleToken, userToken }) => {
               <div className="w-4 border-t-2 border-slate-400 mb-[2px]"></div>
               <div className="w-4 border-t-2 border-slate-400"></div>
             </div>
-            <div className="avatar w-7 h-7 rounded-full bg-slate-400"></div>
+            <div className="avatar">
+              <img
+                // src={infosUser.result.picture.secure_url}
+                alt=""
+                className="w-7 h-7 rounded-full bg-slate-400 object-cover"
+              />
+            </div>
           </Popover.Button>
 
           <Transition

@@ -8,7 +8,7 @@ import { FileUploader } from "react-drag-drop-files";
 // Import img
 import logoAirbnb from "../img/logo-airbnb.svg";
 
-const Signup = ({ handleToken }) => {
+const Signup = ({ handleConnect }) => {
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -48,7 +48,8 @@ const Signup = ({ handleToken }) => {
             },
           }
         );
-        handleToken(response.data.result.token);
+
+        handleConnect(response.data.result.token, response.data.result._id);
         navigate("/");
       } else {
         console.log(

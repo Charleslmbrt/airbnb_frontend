@@ -73,6 +73,7 @@ const Publish = ({ userToken }) => {
         }
       );
       console.log(response.data);
+
       navigate("/");
     } catch (error) {
       console.log(error);

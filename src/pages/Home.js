@@ -8,7 +8,7 @@ import Filters from "../components/Filters";
 //import img
 import iconStar from "../img/star.png";
 
-const Home = ({ handleToken, userToken }) => {
+const Home = ({ handleConnect, userToken }) => {
   const [roomsData, setRoomsData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -28,7 +28,7 @@ const Home = ({ handleToken, userToken }) => {
   return (
     <>
       <div className="fixed bg-white w-full top-0">
-        <Header handleToken={handleToken} userToken={userToken} />
+        <Header handleConnect={handleConnect} userToken={userToken} />
         <Filters />
       </div>
 

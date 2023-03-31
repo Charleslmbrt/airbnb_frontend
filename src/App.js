@@ -13,14 +13,20 @@ import Publish from "./pages/Publish";
 
 function App() {
   const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
+  const [userId, setUserId] = useState(Cookies.get("userId") || null);
+  const [userInfos, setUserInfos] = useState();
 
-  const handleToken = (token) => {
-    if (token) {
+  const handleConnect = (token, userId) => {
+    if (token && userId) {
       Cookies.set("userToken", token, { expires: 7 });
       setUserToken(token);
+      Cookies.set("userID", userId, { expires: 7 });
+      setUserId(userId);
     } else {
       Cookies.remove("userToken");
       setUserToken(null);
+      Cookies.remove("userId");
+      setUserId(null);
     }
   };
 
@@ -30,15 +36,17 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home handleToken={handleToken} userToken={userToken} />}
+            element={
+              <Home handleConnect={handleConnect} userToken={userToken} />
+            }
           />
           <Route
             path="/user/signup"
-            element={<Signup handleToken={handleToken} />}
+            element={<Signup handleConnect={handleConnect} />}
           />
           <Route
             path="/user/login"
-            element={<Login handleToken={handleToken} />}
+            element={<Login handleConnect={handleConnect} />}
           />
           <Route
             path="/room/publish"

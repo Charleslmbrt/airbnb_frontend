@@ -7,7 +7,7 @@ import axios from "axios";
 // Import img
 import logoAirbnb from "../img/logo-airbnb.svg";
 
-const Login = ({ handleToken }) => {
+const Login = ({ handleConnect }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,7 +20,7 @@ const Login = ({ handleToken }) => {
       email: email,
       password: password,
     });
-    handleToken(response.data.result.token);
+    handleConnect(response.data.result.token, response.data.result._id);
     navigate("/");
   };
 
