@@ -85,13 +85,14 @@ function App() {
             element={<Publish userToken={userToken} />}
           />
           <Route
-            path="/rooms/favorites/:id"
+            path="/user/:userId/favorites"
             element={
               <Favorites
-                handleConnect={handleConnect}
                 userToken={userToken}
                 userInfos={userInfos}
+                userId={userId}
                 isLoading={isLoading}
+                setIsLoading={setIsLoading}
               />
             }
           />
