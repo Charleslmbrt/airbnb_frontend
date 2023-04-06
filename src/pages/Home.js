@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { HeartIcon } from "@heroicons/react/24/solid";
 
 // imports components
 import Header from "../components/Header";
@@ -8,9 +9,14 @@ import Filters from "../components/Filters";
 //import img
 import iconStar from "../img/star.png";
 
-const Home = ({ handleConnect, userToken }) => {
+const Home = ({
+  handleConnect,
+  userToken,
+  userInfos,
+  isLoading,
+  setIsLoading,
+}) => {
   const [roomsData, setRoomsData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,12 +29,17 @@ const Home = ({ handleConnect, userToken }) => {
       }
     };
     fetchData();
-  }, []);
+  }, [setIsLoading]);
 
   return (
     <>
       <div className="fixed bg-white w-full top-0">
-        <Header handleConnect={handleConnect} userToken={userToken} />
+        <Header
+          handleConnect={handleConnect}
+          userToken={userToken}
+          userInfos={userInfos}
+          isLoading={isLoading}
+        />
         <Filters />
       </div>
 
@@ -36,9 +47,11 @@ const Home = ({ handleConnect, userToken }) => {
         <h1>Loading....</h1>
       ) : (
         <div className="grid-thumbnails m-10 grid gap-5  mt-48 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {roomsData.map((room) => {
+          {roomsData?.map((room) => {
             return (
-              <div className="thumbnail" key={room._id}>
+              <div className="thumbnail relative" key={room._id}>
+                <HeartIcon className="h-6 w-6 absolute m-3 right-0 text-white cursor-pointer transition duration-300 hover:text-red-500 " />
+
                 <img
                   src={room.picture.secure_url}
                   alt=""

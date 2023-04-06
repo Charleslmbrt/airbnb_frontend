@@ -1,26 +1,29 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // import Packages
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 // import Components/Pages
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Publish from "./pages/Publish";
+import Favorites from "./pages/Favorites";
 
 function App() {
   const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
   const [userId, setUserId] = useState(Cookies.get("userId") || null);
-  const [userInfos, setUserInfos] = useState();
+  const [userInfos, setUserInfos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleConnect = (token, userId) => {
     if (token && userId) {
       Cookies.set("userToken", token, { expires: 7 });
       setUserToken(token);
-      Cookies.set("userID", userId, { expires: 7 });
+      Cookies.set("userId", userId, { expires: 7 });
       setUserId(userId);
     } else {
       Cookies.remove("userToken");
@@ -30,6 +33,29 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const userInfosData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/user/${userId}`,
+          {
+            headers: {
+              authorization: `Bearer ${userToken}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        setUserInfos(response.data.result);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    userInfosData();
+  }, [userId, userToken]);
+
+  console.log("jdkfhsdhciusdh", userInfos);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -37,7 +63,13 @@ function App() {
           <Route
             path="/"
             element={
-              <Home handleConnect={handleConnect} userToken={userToken} />
+              <Home
+                handleConnect={handleConnect}
+                userToken={userToken}
+                userInfos={userInfos}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+              />
             }
           />
           <Route
@@ -51,6 +83,17 @@ function App() {
           <Route
             path="/room/publish"
             element={<Publish userToken={userToken} />}
+          />
+          <Route
+            path="/rooms/favorites/:id"
+            element={
+              <Favorites
+                handleConnect={handleConnect}
+                userToken={userToken}
+                userInfos={userInfos}
+                isLoading={isLoading}
+              />
+            }
           />
         </Routes>
       </BrowserRouter>

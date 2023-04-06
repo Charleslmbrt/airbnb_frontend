@@ -14,9 +14,7 @@ import SearchBar from "../components/SearchBar";
 // Import img
 import logoAirbnb from "../img/logo-airbnb.svg";
 
-const Header = ({ handleConnect, userToken }) => {
-  // console.log("infosUser", infosUser.result.picture.secure_url);
-
+const Header = ({ handleConnect, userToken, userInfos }) => {
   const solutions = [
     {
       name: "Sign up",
@@ -93,7 +91,7 @@ const Header = ({ handleConnect, userToken }) => {
             </div>
             <div className="avatar">
               <img
-                // src={infosUser.result.picture.secure_url}
+                src={userInfos?.picture?.secure_url}
                 alt=""
                 className="w-7 h-7 rounded-full bg-slate-400 object-cover"
               />
