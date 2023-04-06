@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+
+// imports package
 import axios from "axios";
 import { HeartIcon } from "@heroicons/react/24/solid";
 
@@ -13,6 +15,7 @@ const Home = ({
   handleConnect,
   userToken,
   userInfos,
+  userId,
   isLoading,
   setIsLoading,
 }) => {
@@ -31,14 +34,32 @@ const Home = ({
     fetchData();
   }, [setIsLoading]);
 
+  const addToFavorites = async (roomId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/rooms/favorites/${roomId}`,
+        null,
+        {
+          headers: {
+            authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <>
-      <div className="fixed bg-white w-full top-0">
+      <div className="fixed bg-white w-full top-0 z-10">
         <Header
           handleConnect={handleConnect}
           userToken={userToken}
           userInfos={userInfos}
           isLoading={isLoading}
+          userId={userId}
         />
         <Filters />
       </div>
@@ -50,7 +71,12 @@ const Home = ({
           {roomsData?.map((room) => {
             return (
               <div className="thumbnail relative" key={room._id}>
-                <HeartIcon className="h-6 w-6 absolute m-3 right-0 text-white cursor-pointer transition duration-300 hover:text-red-500 " />
+                <HeartIcon
+                  onClick={() => {
+                    addToFavorites(room._id);
+                  }}
+                  className="h-6 w-6 absolute m-3 right-0 text-white cursor-pointer transition duration-300 hover:text-red-500 "
+                />
 
                 <img
                   src={room.picture.secure_url}

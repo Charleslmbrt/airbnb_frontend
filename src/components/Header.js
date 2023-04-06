@@ -6,6 +6,7 @@ import {
   ArrowRightOnRectangleIcon,
   ArrowLeftOnRectangleIcon,
   HomeIcon,
+  BookmarkIcon,
 } from "@heroicons/react/24/outline";
 
 //import components
@@ -14,7 +15,7 @@ import SearchBar from "../components/SearchBar";
 // Import img
 import logoAirbnb from "../img/logo-airbnb.svg";
 
-const Header = ({ handleConnect, userToken, userInfos }) => {
+const Header = ({ handleConnect, userToken, userInfos, userId }) => {
   const solutions = [
     {
       name: "Sign up",
@@ -46,6 +47,13 @@ const Header = ({ handleConnect, userToken, userInfos }) => {
       display: false,
     },
     {
+      name: "Favorites",
+      description: "Find my favorites.",
+      href: `/user/${userId}/favorites`,
+      icon: BookmarkIcon,
+      display: true,
+    },
+    {
       name: "Log out",
       description: "Log out of your account.",
       href: "#",
@@ -73,7 +81,9 @@ const Header = ({ handleConnect, userToken, userInfos }) => {
     <>
       <div className="flex items-center justify-between border-b-[1px] border-slate-200 h-20 w-full py-3 px-10">
         <div className="">
-          <img className="h-12" src={logoAirbnb} alt="logo Airbnb" />
+          <Link to="/">
+            <img className="h-12" src={logoAirbnb} alt="logo Airbnb" />
+          </Link>
         </div>
         <div className="hidden sm:block sm:w-9/12 md:w-[500px]">
           <SearchBar />
