@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 // import packages
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
@@ -22,7 +22,7 @@ const Favorites = ({
     const fetchFavoritesData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/user/${userId}/favorites`,
+          `http://localhost:8080/user/${userId}/favorites`,
           {
             headers: {
               authorization: `Bearer ${userToken}`,
@@ -37,12 +37,12 @@ const Favorites = ({
       }
     };
     fetchFavoritesData();
-  }, [userId, userToken]);
+  }, [userId, userToken, setIsLoading]);
 
   const handleRemoveFromFavorites = async (roomId) => {
     try {
       await axios.delete(
-        `http://localhost:3000/rooms/favorites/delete/${roomId}`,
+        `http://localhost:8080/rooms/favorites/delete/${roomId}`,
         {
           headers: {
             authorization: `Bearer ${userToken}`,

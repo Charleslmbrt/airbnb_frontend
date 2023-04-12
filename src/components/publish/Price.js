@@ -21,7 +21,7 @@ const PricePublish = ({ price, setPrice }) => {
             -
           </button>
 
-          <div className="flex flex-col items-center w-2/4 border-[1px] rounded-xl p-5 flex justify-center mx-10 bg-white">
+          <div className="flex flex-col items-center w-2/4 border-[1px] rounded-xl p-5 justify-center mx-10 bg-white">
             <p
               className={`text-3xl font-bold  ${
                 price <= 10 ? "text-gray-300" : "text-gray-700"

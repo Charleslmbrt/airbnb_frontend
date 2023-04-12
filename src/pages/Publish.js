@@ -63,7 +63,7 @@ const Publish = ({ userToken }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/room/publish",
+        "http://localhost:8080/room/publish",
         formData,
         {
           headers: {

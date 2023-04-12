@@ -12,12 +12,14 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Publish from "./pages/Publish";
 import Favorites from "./pages/Favorites";
+import Rooms from "./pages/Rooms";
 
 function App() {
   const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
   const [userId, setUserId] = useState(Cookies.get("userId") || null);
   const [userInfos, setUserInfos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleConnect = (token, userId) => {
     if (token && userId) {
@@ -37,7 +39,7 @@ function App() {
     const userInfosData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/user/${userId}`,
+          `http://localhost:8080/user/${userId}`,
           {
             headers: {
               authorization: `Bearer ${userToken}`,
@@ -54,7 +56,7 @@ function App() {
     userInfosData();
   }, [userId, userToken]);
 
-  console.log("jdkfhsdhciusdh", userInfos);
+  console.log("userInfos", userInfos);
 
   return (
     <div className="App">
@@ -65,10 +67,13 @@ function App() {
             element={
               <Home
                 handleConnect={handleConnect}
+                userId={userId}
                 userToken={userToken}
                 userInfos={userInfos}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
+                showAlert={showAlert}
+                setShowAlert={setShowAlert}
               />
             }
           />
@@ -91,6 +96,19 @@ function App() {
                 userToken={userToken}
                 userInfos={userInfos}
                 userId={userId}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+              />
+            }
+          />
+          <Route
+            path="/rooms/:id"
+            element={
+              <Rooms
+                handleConnect={handleConnect}
+                userId={userId}
+                userToken={userToken}
+                userInfos={userInfos}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
               />

@@ -15,7 +15,7 @@ const OptionsPublish = ({ options, setOptions }) => {
           onChange={(event) => {
             setOptions(event.target.value);
           }}
-          className="text-xl w-full placeholder-slate-400 mt-5 rounded-xl h-14 bg-neutral-50 border border-solid border-slate-300 text-sm p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
+          className="text-xl w-full placeholder-slate-400 mt-5 rounded-xl h-14 bg-neutral-50 border border-solid border-slate-300  p-5 focus:outline-none focus:border-red-500 sm:max-w-[450px]"
         />
       </div>
     </>
