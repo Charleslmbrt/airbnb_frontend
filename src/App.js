@@ -19,7 +19,6 @@ function App() {
   const [userId, setUserId] = useState(Cookies.get("userId") || null);
   const [userInfos, setUserInfos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showAlert, setShowAlert] = useState(false);
 
   const handleConnect = (token, userId) => {
     if (token && userId) {
@@ -72,8 +71,6 @@ function App() {
                 userInfos={userInfos}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
-                showAlert={showAlert}
-                setShowAlert={setShowAlert}
               />
             }
           />

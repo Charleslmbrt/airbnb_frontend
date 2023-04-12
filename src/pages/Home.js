@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 // imports package
 import axios from "axios";
 import { HeartIcon } from "@heroicons/react/24/solid";
-import { Alert, Space } from "antd";
+import { notification, Space } from "antd";
 
 // imports components
 import Header from "../components/Header";
@@ -20,11 +20,8 @@ const Home = ({
   userId,
   isLoading,
   setIsLoading,
-  showAlert,
-  setShowAlert,
 }) => {
   const [roomsData, setRoomsData] = useState();
-  // const [favActive, setFavActive] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,14 +47,20 @@ const Home = ({
           },
         }
       );
-      // setFavActive(!favActive);
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 2000);
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotificationWithIcon = (type) => {
+    api[type]({
+      // message: "Notification Title",
+      description: "You have added the room to your favorites.",
+      duration: 2,
+      className: "bg-green-600",
+    });
   };
 
   return (
@@ -77,34 +80,20 @@ const Home = ({
         <h1>Loading....</h1>
       ) : (
         <>
-          {showAlert && (
-            <div className="fixed bottom-0 w-full z-50 flex justify-center p-5">
-              <Space direction="vertical" className="">
-                <Alert
-                  message="You have added the room to your favorites"
-                  type="success"
-                  showIcon={true}
-                  closable
-                  onClose={() => {
-                    setShowAlert(false);
-                  }}
-                />
-              </Space>
-            </div>
-          )}
           <div className="grid-thumbnails m-10 grid gap-5 mt-72 sm:mt-48 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 relative ">
             {roomsData?.map((room) => {
               return (
                 <div className="relative" key={room._id}>
-                  <HeartIcon
-                    onClick={() => {
-                      addToFavorites(room._id);
-                    }}
-                    // className={`h-6 w-6 absolute m-3 right-0 text-white cursor-pointer transition duration-300 hover:text-red-500 ${
-                    //   favActive ? "text-red-500" : "text-white"
-                    // }`}
-                    className="h-6 w-6 absolute m-3 right-0 text-white cursor-pointer transition duration-300 hover:text-red-500"
-                  />
+                  {contextHolder}
+                  <Space>
+                    <HeartIcon
+                      onClick={() => {
+                        addToFavorites(room._id);
+                        openNotificationWithIcon("success");
+                      }}
+                      className="h-6 w-6 absolute m-3 right-0 text-white cursor-pointer transition duration-300 hover:text-red-500"
+                    />
+                  </Space>
                   <Link to={`/rooms/${room._id}`}>
                     <div className="thumbnail">
                       <img
