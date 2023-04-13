@@ -12,7 +12,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Publish from "./pages/Publish";
 import Favorites from "./pages/Favorites";
-import Rooms from "./pages/Rooms";
+import Room from "./pages/Room";
 
 function App() {
   const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
@@ -101,7 +101,7 @@ function App() {
           <Route
             path="/rooms/:id"
             element={
-              <Rooms
+              <Room
                 handleConnect={handleConnect}
                 userId={userId}
                 userToken={userToken}

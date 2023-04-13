@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 // imports package
 import axios from "axios";
+import { Carousel } from "antd";
 
 // imports components
 import Header from "../components/Header";
@@ -17,7 +18,6 @@ const Rooms = ({
   userId,
 }) => {
   const { id } = useParams();
-
   const [roomData, setRoomData] = useState();
 
   useEffect(() => {
@@ -33,7 +33,9 @@ const Rooms = ({
     fetchDataRoom();
   }, [setIsLoading]);
 
-  console.log("roomData", roomData);
+  const onChange = (currentSlide) => {
+    console.log(currentSlide);
+  };
 
   return isLoading ? (
     <>
@@ -51,9 +53,20 @@ const Rooms = ({
         />
         <Filters />
       </div>
-      <div className="mt-48">
+      <div className="mt-56">
+        <Carousel afterChange={onChange}>
+          {roomData?.picturesArray?.map((picture) => {
+            return (
+              <img
+                src={picture.secure_url}
+                alt=""
+                className="object-cover max-h-80"
+              />
+            );
+          })}
+        </Carousel>
+
         <p className="text-xl">{roomData?.title}</p>
-        <img src={roomData?.picture.secure_url} alt="" />
       </div>
     </>
   );

@@ -22,6 +22,7 @@ const Home = ({
   setIsLoading,
 }) => {
   const [roomsData, setRoomsData] = useState();
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,19 +48,40 @@ const Home = ({
           },
         }
       );
+
+      const updatedFavorites = await axios.get(
+        `http://localhost:8080/user/${userId}/favorites`,
+        {
+          headers: {
+            authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+      setFavorites(updatedFavorites.data.result);
+
+      const isAlreadyFavorite = favorites.find((room) => room._id === roomId);
+
+      if (!isAlreadyFavorite) {
+        openNotificationWithIcon(
+          "success",
+          "You have added the room to your favorites."
+        );
+      }
     } catch (error) {
-      console.log(error.message);
+      openNotificationWithIcon("warning", "Room already in favorites.");
+      console.log(error.response.data);
     }
   };
 
+  // Notification Favorites
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotificationWithIcon = (type) => {
+  const openNotificationWithIcon = (type, message) => {
     api[type]({
       // message: "Notification Title",
-      description: "You have added the room to your favorites.",
+      description: message,
       duration: 2,
-      className: "bg-green-600",
+      // className: "bg-green-600",
     });
   };
 
@@ -89,7 +111,6 @@ const Home = ({
                     <HeartIcon
                       onClick={() => {
                         addToFavorites(room._id);
-                        openNotificationWithIcon("success");
                       }}
                       className="h-6 w-6 absolute m-3 right-0 text-white cursor-pointer transition duration-300 hover:text-red-500"
                     />
