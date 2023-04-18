@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // imports package
 import axios from "axios";
-import { Carousel } from "antd";
+import { Carousel, Calendar } from "antd";
+// import moment from "moment";
+import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 // imports components
 import Header from "../components/Header";
@@ -19,6 +22,7 @@ const Rooms = ({
 }) => {
   const { id } = useParams();
   const [roomData, setRoomData] = useState();
+  const mapContainer = useRef(null);
 
   useEffect(() => {
     const fetchDataRoom = async () => {
@@ -35,6 +39,28 @@ const Rooms = ({
 
   const onChange = (currentSlide) => {
     console.log(currentSlide);
+  };
+
+  useEffect(() => {
+    mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+
+    if (roomData) {
+      const map = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/streets-v12",
+        center: [roomData.location[0].lng, roomData.location[0].lat],
+        zoom: 12,
+      });
+
+      new mapboxgl.Marker()
+        .setLngLat([roomData.location[0].lng, roomData.location[0].lat])
+        .addTo(map);
+    }
+  }, [roomData]);
+
+  // Calendar
+  const onPanelChange = (value, mode) => {
+    console.log(value.format("YYYY-MM-DD"), mode);
   };
 
   return isLoading ? (
@@ -94,7 +120,18 @@ const Rooms = ({
           <p className="mt-2">{roomData?.options}</p>
           <div className="w-full my-5 h-px bg-gray-200"></div>
           <p className="text-xl font-medium">Where you'll be</p>
-          <div className="bg-red-600 mb-[600px] w-full h-[500px]"></div>
+          <div className="mb-8">
+            <p className="my-2">{roomData?.address}</p>
+            <div ref={mapContainer} className="h-[400px]" />
+          </div>
+          <div className="w-full my-5 h-px bg-gray-200"></div>
+          <div>
+            <p className="text-xl font-medium">5 nights in Nendaz</p>
+            <p className="text-sm  text-gray-400 mb-3">
+              Apr 25, 2023 - Apr 30, 2023
+            </p>
+            <Calendar onPanelChange={onPanelChange} />
+          </div>
         </div>
       </div>
     </>

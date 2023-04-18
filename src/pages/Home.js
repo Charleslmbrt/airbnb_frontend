@@ -98,7 +98,7 @@ const Home = ({
         <Filters />
       </div>
 
-      {isLoading === true ? (
+      {isLoading ? (
         <h1>Loading....</h1>
       ) : (
         <>
