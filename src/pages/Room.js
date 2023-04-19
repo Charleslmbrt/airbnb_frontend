@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 
 // imports package
 import axios from "axios";
-import { Carousel, Calendar } from "antd";
-// import moment from "moment";
+import { Carousel } from "antd";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import generatePicker from "antd/es/date-picker/generatePicker";
+import momentGenerateConfig from "rc-picker/lib/generate/moment";
+import moment from "moment";
+import "moment/locale/fr";
 
 // imports components
 import Header from "../components/Header";
@@ -23,6 +26,19 @@ const Rooms = ({
   const { id } = useParams();
   const [roomData, setRoomData] = useState();
   const mapContainer = useRef(null);
+
+  moment.locale("fr");
+  const MomentPicker = generatePicker(momentGenerateConfig);
+  const [selectedDates, setSelectedDates] = useState([]);
+  const [numberOfNights, setNumberOfNights] = useState(0);
+
+  const onCalendarChange = (dates) => {
+    setSelectedDates(dates);
+
+    // Calculer le nombre de nuits entre les deux dates sélectionnées
+    const nights = dates[1].diff(dates[0], "days");
+    setNumberOfNights(nights);
+  };
 
   useEffect(() => {
     const fetchDataRoom = async () => {
@@ -57,13 +73,6 @@ const Rooms = ({
         .addTo(map);
     }
   }, [roomData]);
-
-  // Calendar
-  const onPanelChange = (value, mode) => {
-    console.log(value.format("YYYY-MM-DD"), mode);
-  };
-
-  console.log("roomData", roomData);
 
   return isLoading ? (
     <>
@@ -123,18 +132,53 @@ const Rooms = ({
           <div className="w-full my-5 h-px bg-gray-200"></div>
           <p className="text-xl font-medium">Where you'll be</p>
           <div className="mb-8">
-            <p className="my-2">{roomData?.address}</p>
-            <div ref={mapContainer} className="h-[400px]" />
+            <div ref={mapContainer} className="h-[400px] my-2" />
           </div>
           <div className="w-full my-5 h-px bg-gray-200"></div>
           <div>
-            <p className="text-xl font-medium">5 nights in Nendaz</p>
-            <p className="text-sm  text-gray-400 mb-3">
-              Apr 25, 2023 - Apr 30, 2023
+            <p className="text-xl font-medium">
+              {numberOfNights} nights in {roomData?.city}, {roomData?.country}
             </p>
-            <Calendar onPanelChange={onPanelChange} />
+            <p className="text-sm  text-gray-400 mb-3">
+              {selectedDates[0]?.format("MMM DD, YYYY")} -{" "}
+              {selectedDates[1]?.format("MMM DD, YYYY")}
+            </p>
+            <div className="mb-10">
+              <MomentPicker.RangePicker
+                value={selectedDates}
+                onChange={onCalendarChange}
+              />
+            </div>
           </div>
         </div>
+      </div>
+      <footer className="h-32 bg-gray-100 border-t-gray-200 border text-sm flex flex-col items-center justify-center mb-20">
+        <p>© 2023 Airbnb, Inc.</p>
+        <p>TermsSitemapPrivacyYour Privacy Choices</p>
+      </footer>
+      <div className="border-t-gray-200 border bg-white h-20 z-10 fixed bottom-0 left-0 right-0 flex justify-between px-10 items-center">
+        <div className="text">
+          {numberOfNights ? (
+            <p>
+              <span className="font-bold">
+                € {roomData?.price * numberOfNights}
+              </span>{" "}
+              for {numberOfNights} nights
+            </p>
+          ) : (
+            <p>
+              <span className="font-bold">€ {roomData?.price}</span> night
+            </p>
+          )}
+          <p>
+            {" "}
+            {selectedDates[0]?.format("MMM DD")} -{" "}
+            {selectedDates[1]?.format("DD")}
+          </p>
+        </div>
+        <button className="bg-red-500 py-2 px-5 rounded-lg text-white">
+          Reserve
+        </button>
       </div>
     </>
   );

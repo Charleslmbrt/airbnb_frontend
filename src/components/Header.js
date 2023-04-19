@@ -16,7 +16,7 @@ import SearchBar from "../components/SearchBar";
 import logoAirbnb from "../img/logo-airbnb.svg";
 
 const Header = ({ handleConnect, userToken, userInfos, userId }) => {
-  const solutions = [
+  const menuItems = [
     {
       name: "Sign up",
       description: "Create a new account.",
@@ -65,15 +65,15 @@ const Header = ({ handleConnect, userToken, userInfos, userId }) => {
     },
   ];
 
-  const filteredSolutions = [];
+  const filteredMenuItems = [];
 
-  for (let i = 0; i < solutions.length; i++) {
-    if (solutions[i].display === "always") {
-      filteredSolutions.push(solutions[i]);
-    } else if (userToken && solutions[i].display) {
-      filteredSolutions.push(solutions[i]);
-    } else if (!userToken && !solutions[i].display) {
-      filteredSolutions.push(solutions[i]);
+  for (let i = 0; i < menuItems.length; i++) {
+    if (menuItems[i].display === "always") {
+      filteredMenuItems.push(menuItems[i]);
+    } else if (userToken && menuItems[i].display) {
+      filteredMenuItems.push(menuItems[i]);
+    } else if (!userToken && !menuItems[i].display) {
+      filteredMenuItems.push(menuItems[i]);
     }
   }
 
@@ -120,7 +120,7 @@ const Header = ({ handleConnect, userToken, userInfos, userId }) => {
             <Popover.Panel className="absolute z-10 mt-5 flex -translate-x-72 w-[368px]">
               <div className="w-screen overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
                 <div className="p-4">
-                  {filteredSolutions.map((item) => (
+                  {filteredMenuItems.map((item) => (
                     <div
                       key={item.name}
                       className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50"
