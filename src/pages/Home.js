@@ -21,15 +21,17 @@ const Home = ({
   isLoading,
   setIsLoading,
 }) => {
-  const [roomsData, setRoomsData] = useState();
+  const [roomsData, setRoomsData] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:8080/rooms");
-        setRoomsData(response.data.result);
+        console.log("response", response);
+        setRoomsData(response.data.rooms);
         setIsLoading(false);
+        console.log("roomsData", roomsData);
       } catch (error) {
         console.log(error.message);
       }
@@ -38,6 +40,7 @@ const Home = ({
   }, [setIsLoading]);
 
   const addToFavorites = async (roomId) => {
+    console.log("favorites", favorites);
     try {
       await axios.post(
         `http://localhost:8080/rooms/favorites/${roomId}`,
@@ -57,7 +60,7 @@ const Home = ({
           },
         }
       );
-      setFavorites(updatedFavorites.data.result);
+      setFavorites(updatedFavorites.data);
 
       const isAlreadyFavorite = favorites.find((room) => room._id === roomId);
 
@@ -68,7 +71,11 @@ const Home = ({
         );
       }
     } catch (error) {
-      openNotificationWithIcon("warning", "Room already in favorites.");
+      if (error.response.data === "Unauthorized") {
+        openNotificationWithIcon("error", "You need to be connected");
+      } else if (error.response.data === "Room already in favorites") {
+        openNotificationWithIcon("warning", "Room already in favorites.");
+      }
       console.log(error.response.data);
     }
   };
@@ -102,7 +109,7 @@ const Home = ({
         <h1>Loading....</h1>
       ) : (
         <>
-          <div className="grid-thumbnails m-10 grid gap-5 mt-72 sm:mt-48 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 relative ">
+          <div className="grid-thumbnails m-10 grid gap-5 mt-72 sm:mt-48 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 relative">
             {roomsData?.map((room) => {
               return (
                 <div className="relative" key={room._id}>

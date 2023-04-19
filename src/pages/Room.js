@@ -28,7 +28,7 @@ const Rooms = ({
     const fetchDataRoom = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/rooms/${id}`);
-        setRoomData(response.data.result);
+        setRoomData(response.data);
         setIsLoading(false);
       } catch (error) {
         console.log(error.message);
@@ -62,6 +62,8 @@ const Rooms = ({
   const onPanelChange = (value, mode) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
+
+  console.log("roomData", roomData);
 
   return isLoading ? (
     <>

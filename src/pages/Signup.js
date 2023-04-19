@@ -49,7 +49,7 @@ const Signup = ({ handleConnect }) => {
           }
         );
 
-        handleConnect(response.data.result.token, response.data.result._id);
+        handleConnect(response.data.token, response.data._id);
         navigate("/");
       } else {
         console.log(
