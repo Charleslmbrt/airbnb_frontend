@@ -5,11 +5,8 @@ import PlacesAutocomplete, {
 
 const LocationPublish = ({
   setAddress,
-  location,
   setLocation,
-  city,
   setCity,
-  country,
   setCountry,
   address,
 }) => {

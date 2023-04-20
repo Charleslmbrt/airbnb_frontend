@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Carousel } from "antd";
 import "mapbox-gl/dist/mapbox-gl.css";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import generatePicker from "antd/es/date-picker/generatePicker";
 import momentGenerateConfig from "rc-picker/lib/generate/moment";
 import moment from "moment";
@@ -58,7 +58,7 @@ const Rooms = ({
   };
 
   useEffect(() => {
-    mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
     if (roomData) {
       const map = new mapboxgl.Map({
