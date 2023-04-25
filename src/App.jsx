@@ -30,6 +30,7 @@ function App() {
       setUserToken(null);
       Cookies.remove("userId");
       setUserId(null);
+      window.location.reload(); // To reload the page
     }
   };
 

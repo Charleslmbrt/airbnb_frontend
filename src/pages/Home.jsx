@@ -43,7 +43,6 @@ const Home = ({
   }, [typeFilter, setIsLoading]);
 
   const addToFavorites = async (roomId) => {
-    console.log("favorites", favorites);
     try {
       await axios.post(
         `http://localhost:8080/rooms/favorites/${roomId}`,

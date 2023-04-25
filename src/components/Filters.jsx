@@ -1,5 +1,8 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
+
+// import packages
+import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 // import assets
 import iconPool from "../img/icon-piscine.png";
@@ -25,7 +28,7 @@ const Filters = ({ setTypeFilter }) => {
           <div
             className={`flex flex-col items-center cursor-pointer  ${
               activeLink === "AllHomes"
-                ? "pb-4 border-b-4 border-black opacity-100"
+                ? "pb-4 border-b-2 border-black opacity-100"
                 : "border-none opacity-60"
             }`}
             onClick={() => {
@@ -39,7 +42,7 @@ const Filters = ({ setTypeFilter }) => {
           <div
             className={`flex flex-col items-center cursor-pointer  ${
               activeLink === "Amazing Pool"
-                ? "pb-4 border-b-4 border-black opacity-100"
+                ? "pb-4 border-b-2 border-black opacity-100"
                 : "border-none opacity-60"
             }`}
             onClick={() => {
@@ -53,7 +56,7 @@ const Filters = ({ setTypeFilter }) => {
           <div
             className={`flex flex-col items-center cursor-pointer  ${
               activeLink === "Design"
-                ? "pb-4 border-b-4 border-black opacity-100"
+                ? "pb-4 border-b-2 border-black opacity-100"
                 : "border-none opacity-60"
             }`}
             onClick={() => handleFilter("Design")}
@@ -65,7 +68,7 @@ const Filters = ({ setTypeFilter }) => {
           <div
             className={`flex flex-col items-center cursor-pointer  ${
               activeLink === "OMG!"
-                ? "pb-4 border-b-4 border-black opacity-100"
+                ? "pb-4 border-b-2 border-black opacity-100"
                 : "border-none opacity-60"
             }`}
             onClick={() => handleFilter("OMG!")}
@@ -77,7 +80,7 @@ const Filters = ({ setTypeFilter }) => {
           <div
             className={`flex flex-col items-center cursor-pointer  ${
               activeLink === "Historical homes"
-                ? "pb-4 border-b-4 border-black opacity-100"
+                ? "pb-4 border-b-2 border-black opacity-100"
                 : "border-none opacity-60"
             }`}
             onClick={() => handleFilter("Historical homes")}
@@ -93,7 +96,7 @@ const Filters = ({ setTypeFilter }) => {
           <div
             className={`flex flex-col items-center cursor-pointer  ${
               activeLink === "Luxe"
-                ? "pb-4 border-b-4 border-black opacity-100"
+                ? "pb-4 border-b-2 border-black opacity-100"
                 : "border-none opacity-60"
             }`}
             onClick={() => handleFilter("Luxe")}
@@ -104,13 +107,18 @@ const Filters = ({ setTypeFilter }) => {
           <div
             className={`flex flex-col items-center cursor-pointer  ${
               activeLink === "Camping"
-                ? "pb-4 border-b-4 border-black opacity-100"
+                ? "pb-4 border-b-2 border-black opacity-100"
                 : "border-none opacity-60"
             }`}
             onClick={() => handleFilter("Camping")}
           >
             <img src={iconCamping} alt="icon camping" className="w-6 mb-1 " />
             <p>Camping</p>
+          </div>
+
+          <div className="flex justify-between items-center border px-5 rounded-lg mb-5">
+            <AdjustmentsVerticalIcon className="h-5 w-5" />
+            <p> Filters</p>
           </div>
         </div>
       </div>
