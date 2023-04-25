@@ -90,72 +90,89 @@ const Rooms = ({
         />
         {/* <Filters /> */}
       </div>
-      <div className="mt-44">
-        <Carousel afterChange={onChange}>
-          {roomData?.picturesArray?.map((picture) => {
-            return (
-              <img
-                key={picture.asset_id}
-                src={picture.secure_url}
-                alt=""
-                className="object-cover max-h-80"
-              />
-            );
-          })}
-        </Carousel>
-        <div className="mx-10 mt-5">
-          <p className="text-2xl font-medium">{roomData?.title}</p>
-          <p className="text-lg mt-1">
-            {roomData?.city}, {roomData?.country}
-          </p>
 
-          <p className="text-sm  text-gray-400">{roomData?.type}</p>
-          <div className="w-full my-5 h-px bg-gray-200"></div>
-          <div className="flex justify-between items-center">
-            <p className="text-2xl">Hosted by {userInfos?.firstname}</p>
+      <div className="max-w-8xl mx-10 sm:mx-20">
+        <div className="mt-44">
+          <div class="grid grid-rows-2 grid-cols-4  gap-2">
             <img
-              src={userInfos?.picture?.secure_url}
+              src={roomData.picturesArray[0].secure_url}
               alt=""
-              className="w-12 h-12 rounded-full bg-red-500 object-cover"
+              className="col-span-2 row-span-2"
             />
+            {roomData?.picturesArray?.slice(1).map((picture) => {
+              return <img src={picture.secure_url} alt="" />;
+            })}
           </div>
-          <p className="font-light">
-            {roomData?.mainInfos.guests} guests • {roomData?.mainInfos.bedrooms}{" "}
-            bedrooms • {roomData?.mainInfos.beds} beds •
-            {roomData?.mainInfos.bathrooms} bathrooms
-          </p>
-          <div className="w-full my-5 h-px bg-gray-200"></div>
-          <p className="">{roomData?.description}</p>
-          <div className="w-full my-5 h-px bg-gray-200"></div>
-          <p className="text-xl font-medium">What this place offers</p>
-          <p className="mt-2">{roomData?.options}</p>
-          <div className="w-full my-5 h-px bg-gray-200"></div>
-          <p className="text-xl font-medium">Where you'll be</p>
-          <div className="mb-8">
-            <div ref={mapContainer} className="h-[400px] my-2" />
-          </div>
-          <div className="w-full my-5 h-px bg-gray-200"></div>
-          <div>
-            <p className="text-xl font-medium">
-              {numberOfNights} nights in {roomData?.city}, {roomData?.country}
+
+          {/* <Carousel afterChange={onChange} className="sm:hidden">
+            {roomData?.picturesArray?.map((picture) => {
+              return (
+                <img
+                  key={picture.asset_id}
+                  src={picture.secure_url}
+                  alt=""
+                  className="object-cover max-h-80"
+                />
+              );
+            })}
+          </Carousel> */}
+          <div className=" mt-5">
+            <p className="text-2xl font-medium">{roomData?.title}</p>
+            <p className="text-lg mt-1">
+              {roomData?.city}, {roomData?.country}
             </p>
-            <p className="text-sm  text-gray-400 mb-3">
-              {selectedDates[0]?.format("MMM DD, YYYY")} -{" "}
-              {selectedDates[1]?.format("MMM DD, YYYY")}
-            </p>
-            <div className="mb-10">
-              <MomentPicker.RangePicker
-                value={selectedDates}
-                onChange={onCalendarChange}
+
+            <p className="text-sm  text-gray-400">{roomData?.type}</p>
+            <div className="w-full my-5 h-px bg-gray-200"></div>
+            <div className="flex justify-between items-center">
+              <p className="text-2xl">Hosted by {userInfos?.firstname}</p>
+              <img
+                src={userInfos?.picture?.secure_url}
+                alt=""
+                className="w-12 h-12 rounded-full bg-red-500 object-cover"
               />
+            </div>
+            <p className="font-light">
+              {roomData?.mainInfos.guests} guests •{" "}
+              {roomData?.mainInfos.bedrooms} bedrooms •{" "}
+              {roomData?.mainInfos.beds} beds •{roomData?.mainInfos.bathrooms}{" "}
+              bathrooms
+            </p>
+            <div className="w-full my-5 h-px bg-gray-200"></div>
+            <p className="">{roomData?.description}</p>
+            <div className="w-full my-5 h-px bg-gray-200"></div>
+            <p className="text-xl font-medium">What this place offers</p>
+            <p className="mt-2">{roomData?.options}</p>
+            <div className="w-full my-5 h-px bg-gray-200"></div>
+            <p className="text-xl font-medium">Where you'll be</p>
+            <div className="mb-8">
+              <div ref={mapContainer} className="h-[400px] my-2" />
+            </div>
+            <div className="w-full my-5 h-px bg-gray-200"></div>
+            <div>
+              <p className="text-xl font-medium">
+                {numberOfNights} nights in {roomData?.city}, {roomData?.country}
+              </p>
+              <p className="text-sm  text-gray-400 mb-3">
+                {selectedDates[0]?.format("MMM DD, YYYY")} -{" "}
+                {selectedDates[1]?.format("MMM DD, YYYY")}
+              </p>
+              <div className="mb-10">
+                <MomentPicker.RangePicker
+                  value={selectedDates}
+                  onChange={onCalendarChange}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <footer className="h-32 bg-gray-100 border-t-gray-200 border text-sm flex flex-col items-center justify-center mb-20">
         <p>© 2023 Airbnb, Inc.</p>
         <p>TermsSitemapPrivacyYour Privacy Choices</p>
       </footer>
+
       <div className="border-t-gray-200 border bg-white h-20 z-10 fixed bottom-0 left-0 right-0 flex justify-between px-10 items-center">
         <div className="text">
           {numberOfNights ? (

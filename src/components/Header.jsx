@@ -79,93 +79,96 @@ const Header = ({ handleConnect, userToken, userInfos, userId }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between border-b-[1px] border-slate-200 h-20 w-full py-3 px-10">
-        <div className="">
-          <Link to="/">
-            <img className="h-12" src={logoAirbnb} alt="logo Airbnb" />
-          </Link>
-        </div>
-        <div className="hidden sm:block sm:w-9/12 md:w-[500px]">
-          <SearchBar />
-        </div>
+      <div className="max-w-8xl mx-auto border-b">
+        <div className="flex items-center justify-between  border-slate-200 h-20  mx-10 xl:mx-20">
+          <div>
+            <Link to="/">
+              <img className="h-12" src={logoAirbnb} alt="logo Airbnb" />
+            </Link>
+          </div>
+          <div className="hidden sm:block sm:w-9/12 md:w-[500px]">
+            <SearchBar />
+          </div>
 
-        <Popover className="relative">
-          <Popover.Button
-            className="flex outline-none items-center justify-between menu border-[1px] border-slate-2
+          <Popover className="relative">
+            <Popover.Button
+              className="flex outline-none items-center justify-between menu border-[1px] border-slate-2
            00 rounded-full w-20 h-10 pr-2 pl-3 bg-neutral-50 transition duration-300 hover:drop-shadow-lg cursor-pointer"
-          >
-            <div className="burger">
-              <div className="w-4 border-t-2 border-slate-400 mb-[2px]"></div>
-              <div className="w-4 border-t-2 border-slate-400 mb-[2px]"></div>
-              <div className="w-4 border-t-2 border-slate-400"></div>
-            </div>
-            <div className="avatar">
-              <img
-                src={userInfos?.picture?.secure_url}
-                alt=""
-                className="w-7 h-7 rounded-full bg-slate-400 object-cover"
-              />
-            </div>
-          </Popover.Button>
-
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-200"
-            enterFrom="opacity-0 translate-y-1"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition ease-in duration-150"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-1"
-          >
-            <Popover.Panel className="absolute z-10 mt-5 flex -translate-x-72 w-[368px]">
-              <div className="w-screen overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
-                <div className="p-4">
-                  {filteredMenuItems.map((item) => (
-                    <div
-                      key={item.name}
-                      className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50"
-                    >
-                      <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                        <item.icon
-                          className="h-6 w-6 text-slate-700 group-hover:text-red-500"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      {userToken && item.display === true ? (
-                        <div onClick={item.onClick}>
-                          <Link
-                            to={item.href}
-                            className="font-semibold text-gray-900"
-                          >
-                            {item.name}
-                            <span className="absolute inset-0" />
-                          </Link>
-                          <p className="mt-1 text-gray-500">
-                            {item.description}
-                          </p>
-                        </div>
-                      ) : (
-                        <div onClick={item.onClick}>
-                          <Link
-                            to={item.href}
-                            className="font-semibold text-gray-900"
-                          >
-                            {item.name}
-                            <span className="absolute inset-0" />
-                          </Link>
-                          <p className="mt-1 text-gray-500">
-                            {item.description}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+            >
+              <div className="burger">
+                <div className="w-4 border-t-2 border-slate-400 mb-[2px]"></div>
+                <div className="w-4 border-t-2 border-slate-400 mb-[2px]"></div>
+                <div className="w-4 border-t-2 border-slate-400"></div>
               </div>
-            </Popover.Panel>
-          </Transition>
-        </Popover>
+              <div className="avatar">
+                <img
+                  src={userInfos?.picture?.secure_url}
+                  alt=""
+                  className="w-7 h-7 rounded-full bg-slate-400 object-cover"
+                />
+              </div>
+            </Popover.Button>
+
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-200"
+              enterFrom="opacity-0 translate-y-1"
+              enterTo="opacity-100 translate-y-0"
+              leave="transition ease-in duration-150"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-1"
+            >
+              <Popover.Panel className="absolute z-10 mt-5 flex -translate-x-72 w-[368px]">
+                <div className="w-screen overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
+                  <div className="p-4">
+                    {filteredMenuItems.map((item) => (
+                      <div
+                        key={item.name}
+                        className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50"
+                      >
+                        <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                          <item.icon
+                            className="h-6 w-6 text-slate-700 group-hover:text-red-500"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        {userToken && item.display === true ? (
+                          <div onClick={item.onClick}>
+                            <Link
+                              to={item.href}
+                              className="font-semibold text-gray-900"
+                            >
+                              {item.name}
+                              <span className="absolute inset-0" />
+                            </Link>
+                            <p className="mt-1 text-gray-500">
+                              {item.description}
+                            </p>
+                          </div>
+                        ) : (
+                          <div onClick={item.onClick}>
+                            <Link
+                              to={item.href}
+                              className="font-semibold text-gray-900"
+                            >
+                              {item.name}
+                              <span className="absolute inset-0" />
+                            </Link>
+                            <p className="mt-1 text-gray-500">
+                              {item.description}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Popover.Panel>
+            </Transition>
+          </Popover>
+        </div>
       </div>
+
       <div className="sm:hidden">
         <SearchBar />
       </div>
