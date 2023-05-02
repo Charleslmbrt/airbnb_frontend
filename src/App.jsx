@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // import Packages
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -57,62 +57,74 @@ function App() {
 
   console.log("userInfos", userInfos);
 
+  const location = useLocation();
+  const match = location.pathname.match(/\/rooms\/(\d+)/);
+  console.log("match", match);
+  const roomId = match ? match[1] : null;
+
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home
-                handleConnect={handleConnect}
-                userId={userId}
-                userToken={userToken}
-                userInfos={userInfos}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-              />
-            }
-          />
-          <Route
-            path="/user/signup"
-            element={<Signup handleConnect={handleConnect} />}
-          />
-          <Route
-            path="/user/login"
-            element={<Login handleConnect={handleConnect} />}
-          />
-          <Route
-            path="/room/publish"
-            element={<Publish userToken={userToken} />}
-          />
-          <Route
-            path="/user/:userId/favorites"
-            element={
-              <Favorites
-                userToken={userToken}
-                userInfos={userInfos}
-                userId={userId}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-              />
-            }
-          />
-          <Route
-            path="/rooms/:id"
-            element={
-              <Room
-                handleConnect={handleConnect}
-                userId={userId}
-                userToken={userToken}
-                userInfos={userInfos}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-              />
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+    <div className="App min-h-screen">
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              handleConnect={handleConnect}
+              userId={userId}
+              userToken={userToken}
+              userInfos={userInfos}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+            />
+          }
+        />
+        <Route
+          path="/user/signup"
+          element={<Signup handleConnect={handleConnect} />}
+        />
+        <Route
+          path="/user/login"
+          element={<Login handleConnect={handleConnect} />}
+        />
+        <Route
+          path="/room/publish"
+          element={<Publish userToken={userToken} />}
+        />
+        <Route
+          path="/user/:userId/favorites"
+          element={
+            <Favorites
+              userToken={userToken}
+              userInfos={userInfos}
+              userId={userId}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+            />
+          }
+        />
+        <Route
+          path="/rooms/:id"
+          element={
+            <Room
+              handleConnect={handleConnect}
+              userId={userId}
+              userToken={userToken}
+              userInfos={userInfos}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+            />
+          }
+        />
+      </Routes>
+
+      <footer
+        className={`sticky top-[100vh] h-32 bg-gray-100 border-t-gray-200 border text-sm flex flex-col items-center justify-center mt-20 ${
+          roomId ? "mb-20" : ""
+        }`}
+      >
+        <p>© 2023 Airbnb, Inc.</p>
+        <p>Terms • Site map • Privacy • Your Privacy Choices</p>
+      </footer>
     </div>
   );
 }

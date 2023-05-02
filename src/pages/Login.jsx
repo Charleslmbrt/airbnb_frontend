@@ -62,7 +62,7 @@ const Login = ({ handleConnect }) => {
               type="submit"
               className="text-center text-neutral-50 mt-5 rounded-xl h-14 focus:outline-none focus:border-red-500 bg-red-500 transition-transform hover:scale-[1.03] duration-500 ease-out"
             >
-              Register
+              Login
             </button>
           </form>
           <p className="mt-5">
