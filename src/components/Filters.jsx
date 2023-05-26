@@ -3,6 +3,7 @@ import { useState } from "react";
 // import packages
 import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { Button, Modal } from "antd";
 
 // import assets
 import iconPool from "../img/icon-piscine.png";
@@ -19,6 +20,18 @@ const Filters = ({ setTypeFilter }) => {
   const handleFilter = (filter) => {
     setTypeFilter(filter);
     setActiveLink(filter);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -116,10 +129,24 @@ const Filters = ({ setTypeFilter }) => {
             <p>Camping</p>
           </div>
 
-          <div className="flex justify-between items-center border px-5 rounded-lg mb-5">
+          <div
+            className="flex justify-between items-center border px-5 rounded-lg mb-5 cursor-pointer"
+            type="primary"
+            onClick={showModal}
+          >
             <AdjustmentsVerticalIcon className="h-5 w-5" />
             <p> Filters</p>
           </div>
+          <Modal
+            title="Basic Modal"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </Modal>
         </div>
       </div>
     </>

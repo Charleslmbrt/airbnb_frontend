@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 // imports package
 import axios from "axios";
 import { HeartIcon } from "@heroicons/react/24/solid";
-import { notification, Space } from "antd";
+import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
+import { Space } from "antd";
 
 // imports components
 import Header from "../components/Header";
@@ -20,9 +21,13 @@ const Home = ({
   userId,
   isLoading,
   setIsLoading,
+  addToFavorites,
+  handleRemoveFromFavorites,
+  favorites,
+  contextHolder,
+  roomId,
 }) => {
   const [roomsData, setRoomsData] = useState([]);
-  const [favorites, setFavorites] = useState([]);
   const [typeFilter, setTypeFilter] = useState("");
 
   useEffect(() => {
@@ -41,58 +46,6 @@ const Home = ({
     };
     fetchData();
   }, [typeFilter, setIsLoading]);
-
-  const addToFavorites = async (roomId) => {
-    try {
-      await axios.post(
-        `http://localhost:8080/rooms/favorites/${roomId}`,
-        null,
-        {
-          headers: {
-            authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-
-      const updatedFavorites = await axios.get(
-        `http://localhost:8080/user/${userId}/favorites`,
-        {
-          headers: {
-            authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      setFavorites(updatedFavorites.data);
-
-      const isAlreadyFavorite = favorites.find((room) => room._id === roomId);
-
-      if (!isAlreadyFavorite) {
-        openNotificationWithIcon(
-          "success",
-          "You have added the room to your favorites."
-        );
-      }
-    } catch (error) {
-      if (error.response.data === "Unauthorized") {
-        openNotificationWithIcon("error", "You need to be connected");
-      } else if (error.response.data === "Room already in favorites") {
-        openNotificationWithIcon("warning", "Room already in favorites.");
-      }
-      console.log(error.response.data);
-    }
-  };
-
-  // Notification Favorites
-  const [api, contextHolder] = notification.useNotification();
-
-  const openNotificationWithIcon = (type, message) => {
-    api[type]({
-      // message: "Notification Title",
-      description: message,
-      duration: 2,
-      // className: "bg-green-600",
-    });
-  };
 
   return (
     <>
@@ -114,15 +67,33 @@ const Home = ({
           <div className="flex justify-center mt-5">
             <div className="grid-thumbnails max-w-8xl mx-10 grid gap-5 mt-60 sm:mt-36 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 relative xl:mx-20">
               {roomsData?.map((room) => {
+                const isFavorite = favorites.find(
+                  (favRoom) => favRoom._id === room._id
+                );
+
+                const HeartComponent = isFavorite
+                  ? HeartIcon
+                  : HeartIconOutline;
+
+                const handleHeartClick = () => {
+                  if (isFavorite) {
+                    handleRemoveFromFavorites(room._id);
+                  } else {
+                    addToFavorites(room._id);
+                  }
+                };
+
                 return (
                   <div className="relative" key={room._id}>
                     {contextHolder}
                     <Space>
-                      <HeartIcon
+                      <HeartComponent
                         onClick={() => {
-                          addToFavorites(room._id);
+                          handleHeartClick();
                         }}
-                        className="h-6 w-6 absolute m-3 right-0 text-white cursor-pointer transition duration-300 hover:text-red-500"
+                        className={`h-6 w-6 absolute m-3 right-0 ${
+                          isFavorite ? "text-red-500" : "text-white"
+                        } cursor-pointer transition duration-300 hover:text-red-500`}
                       />
                     </Space>
                     <Link to={`/rooms/${room._id}`}>

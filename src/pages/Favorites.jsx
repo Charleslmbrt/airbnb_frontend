@@ -15,9 +15,10 @@ const Favorites = ({
   userId,
   isLoading,
   setIsLoading,
+  handleRemoveFromFavorites,
+  favorites,
+  setFavorites,
 }) => {
-  const [favorites, setFavorites] = useState([]);
-
   useEffect(() => {
     const fetchFavoritesData = async () => {
       try {
@@ -38,22 +39,6 @@ const Favorites = ({
     };
     fetchFavoritesData();
   }, [userId, userToken, setIsLoading]);
-
-  const handleRemoveFromFavorites = async (roomId) => {
-    try {
-      await axios.delete(
-        `http://localhost:8080/rooms/favorites/delete/${roomId}`,
-        {
-          headers: {
-            authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      setFavorites(favorites.filter((room) => room._id !== roomId));
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   return userToken ? (
     <>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { notification } from "antd";
 
 // import Components/Pages
 import Home from "./pages/Home";
@@ -18,6 +19,7 @@ function App() {
   const [userId, setUserId] = useState(Cookies.get("userId") || null);
   const [userInfos, setUserInfos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
 
   const handleConnect = (token, userId) => {
     if (token && userId) {
@@ -55,12 +57,105 @@ function App() {
     userInfosData();
   }, [userId, userToken]);
 
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (userToken && userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/user/${userId}/favorites`,
+            {
+              headers: {
+                authorization: `Bearer ${userToken}`,
+              },
+            }
+          );
+          setFavorites(response.data);
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
+    };
+
+    fetchFavorites();
+  }, [userToken, userId]);
+
   console.log("userInfos", userInfos);
 
   const location = useLocation();
   const match = location.pathname.match(/\/rooms\/(\d+)/);
-  console.log("match", match);
   const roomId = match ? match[1] : null;
+
+  // ******************  Add and delete room as favorite  ******************
+
+  const addToFavorites = async (roomId) => {
+    const isAlreadyFavorite = favorites.find((room) => room._id === roomId);
+
+    if (isAlreadyFavorite) {
+      openNotificationWithIcon("warning", "Room already in favorites.");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `http://localhost:8080/rooms/favorites/${roomId}`,
+        null,
+        {
+          headers: {
+            authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+
+      const updatedFavorites = await axios.get(
+        `http://localhost:8080/user/${userId}/favorites`,
+        {
+          headers: {
+            authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+      setFavorites(updatedFavorites.data);
+
+      openNotificationWithIcon(
+        "success",
+        "You have added the room to your favorites."
+      );
+    } catch (error) {
+      if (error.response.data === "Unauthorized") {
+        openNotificationWithIcon("error", "You need to be connected");
+      } else {
+        console.log(error.response.data);
+      }
+    }
+  };
+
+  const handleRemoveFromFavorites = async (roomId) => {
+    try {
+      await axios.delete(
+        `http://localhost:8080/rooms/favorites/delete/${roomId}`,
+        {
+          headers: {
+            authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+      setFavorites(favorites.filter((room) => room._id !== roomId));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // Notification Favorites
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotificationWithIcon = (type, message) => {
+    api[type]({
+      // message: "Notification Title",
+      description: message,
+      duration: 2,
+      // className: "bg-green-600",
+    });
+  };
 
   return (
     <div className="App min-h-screen">
@@ -75,6 +170,11 @@ function App() {
               userInfos={userInfos}
               isLoading={isLoading}
               setIsLoading={setIsLoading}
+              addToFavorites={addToFavorites}
+              handleRemoveFromFavorites={handleRemoveFromFavorites}
+              favorites={favorites}
+              contextHolder={contextHolder}
+              roomId={roomId}
             />
           }
         />
@@ -99,6 +199,9 @@ function App() {
               userId={userId}
               isLoading={isLoading}
               setIsLoading={setIsLoading}
+              handleRemoveFromFavorites={handleRemoveFromFavorites}
+              favorites={favorites}
+              setFavorites={setFavorites}
             />
           }
         />
