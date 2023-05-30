@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 // imports package
@@ -25,10 +25,14 @@ const Home = ({
   handleRemoveFromFavorites,
   favorites,
   contextHolder,
-  roomId,
+  priceMin,
+  setPriceMin,
+  priceMax,
+  setPriceMax,
 }) => {
   const [roomsData, setRoomsData] = useState([]);
   const [typeFilter, setTypeFilter] = useState("");
+  const [displayRooms, setDisplayRooms] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +40,12 @@ const Home = ({
         let url = `http://localhost:8080/rooms`;
         if (typeFilter !== "AllHomes") {
           url += `?type=${typeFilter}`;
+        }
+        if (priceMin && displayRooms) {
+          url += `&priceMin=${priceMin}`;
+        }
+        if (priceMax && displayRooms) {
+          url += `&priceMax=${priceMax}`;
         }
         const response = await axios.get(url);
         setRoomsData(response.data.rooms);
@@ -45,7 +55,7 @@ const Home = ({
       }
     };
     fetchData();
-  }, [typeFilter, setIsLoading]);
+  }, [typeFilter, priceMin, priceMax, displayRooms]);
 
   return (
     <>
@@ -57,7 +67,15 @@ const Home = ({
           isLoading={isLoading}
           userId={userId}
         />
-        <Filters setTypeFilter={setTypeFilter} />
+        <Filters
+          setTypeFilter={setTypeFilter}
+          priceMin={priceMin}
+          setPriceMin={setPriceMin}
+          priceMax={priceMax}
+          setPriceMax={setPriceMax}
+          displayRooms={displayRooms}
+          setDisplayRooms={setDisplayRooms}
+        />
       </div>
 
       {isLoading ? (
@@ -65,7 +83,7 @@ const Home = ({
       ) : (
         <>
           <div className="flex justify-center mt-5">
-            <div className="grid-thumbnails max-w-8xl mx-10 grid gap-5 mt-60 sm:mt-36 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 relative xl:mx-20">
+            <div className="grid-thumbnails max-w-8xl mx-10 grid gap-5 mt-72 sm:mt-36 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 relative xl:mx-20">
               {roomsData?.map((room) => {
                 const isFavorite = favorites.find(
                   (favRoom) => favRoom._id === room._id
@@ -101,7 +119,7 @@ const Home = ({
                         <img
                           src={room.picture.secure_url}
                           alt=""
-                          className="h-96 bg-slate-700 rounded-[15px] sm:h-72 object-cover"
+                          className="w-96 h-96 bg-slate-700 rounded-[15px] sm:h-72 object-cover"
                         />
                         <div className="description flex justify-between items-start mt-3 ">
                           <div className="description-text text-sm grow">

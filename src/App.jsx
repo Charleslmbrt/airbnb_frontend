@@ -20,6 +20,8 @@ function App() {
   const [userInfos, setUserInfos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState([]);
+  const [priceMin, setPriceMin] = useState(10);
+  const [priceMax, setPriceMax] = useState(2000);
 
   const handleConnect = (token, userId) => {
     if (token && userId) {
@@ -140,6 +142,11 @@ function App() {
         }
       );
       setFavorites(favorites.filter((room) => room._id !== roomId));
+
+      openNotificationWithIcon(
+        "success",
+        "You have deleted the room to your favorites."
+      );
     } catch (error) {
       console.log(error.message);
     }
@@ -174,7 +181,10 @@ function App() {
               handleRemoveFromFavorites={handleRemoveFromFavorites}
               favorites={favorites}
               contextHolder={contextHolder}
-              roomId={roomId}
+              priceMin={priceMin}
+              setPriceMin={setPriceMin}
+              priceMax={priceMax}
+              setPriceMax={setPriceMax}
             />
           }
         />

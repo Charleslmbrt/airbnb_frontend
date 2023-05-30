@@ -206,7 +206,7 @@ const Publish = ({ userToken }) => {
           <div className="h-auto">
             <div className="fixed bottom-0 w-full px-10 py-5 lg:flex lg:justify-end">
               <div
-                className="p-3 bg-red-500 rounded-lg text-white text-sm text-center cursor-pointer lg:w-40 "
+                className="p-3 bg-red-500 rounded-lg text-white text-sm text-center cursor-pointer lg:w-40"
                 onClick={goToNextSlide}
                 disabled={currentSlide === steps.length - 1}
               >
