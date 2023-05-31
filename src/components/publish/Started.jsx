@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 
 // import assets
-import TellIcon from "/Users/charles/Documents/_Code/_Projects/airbnb/frontend/src/img/01_Tell.webp";
-import MakeIcon from "/Users/charles/Documents/_Code/_Projects/airbnb/frontend/src/img/02_Make.webp";
-import FinishIcon from "/Users/charles/Documents/_Code/_Projects/airbnb/frontend/src/img/03_Finish.webp";
+import TellIcon from "./img/01_Tell.webp";
+import MakeIcon from "./img/02_Make.webp";
+import FinishIcon from "./img/03_Finish.webp";
 
 const icons = {
   TellIcon: TellIcon,
