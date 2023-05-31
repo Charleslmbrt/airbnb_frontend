@@ -1,5 +1,5 @@
 // imports assets
-import homeAirbnbVideo from "/Users/charles/Documents/_Code/_Projects/airbnb/frontend/src/img/video_home_airbnb.mp4";
+import homeAirbnbVideo from "./img/video_home_airbnb.mp4";
 
 const IntroPublish = () => {
   return (
