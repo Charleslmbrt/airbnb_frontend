@@ -37,7 +37,7 @@ const Home = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let url = `http://localhost:8080/rooms`;
+        let url = `https://airbnb-cl.herokuapp.com/rooms`;
         if (typeFilter !== "AllHomes") {
           url += `?type=${typeFilter}`;
         }

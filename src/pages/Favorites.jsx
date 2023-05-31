@@ -23,7 +23,7 @@ const Favorites = ({
     const fetchFavoritesData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/user/${userId}/favorites`,
+          `https://airbnb-cl.herokuapp.com/user/${userId}/favorites`,
           {
             headers: {
               authorization: `Bearer ${userToken}`,

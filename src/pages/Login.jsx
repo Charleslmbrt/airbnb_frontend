@@ -16,10 +16,13 @@ const Login = ({ handleConnect }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await axios.post("http://localhost:8080/user/login", {
-      email: email,
-      password: password,
-    });
+    const response = await axios.post(
+      "https://airbnb-cl.herokuapp.com/user/login",
+      {
+        email: email,
+        password: password,
+      }
+    );
     handleConnect(response.data.token, response.data._id);
     navigate("/");
   };

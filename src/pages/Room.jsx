@@ -43,7 +43,9 @@ const Rooms = ({
   useEffect(() => {
     const fetchDataRoom = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/rooms/${id}`);
+        const response = await axios.get(
+          `https://airbnb-cl.herokuapp.com/rooms/${id}`
+        );
         setRoomData(response.data);
         setIsLoading(false);
       } catch (error) {
