@@ -40,7 +40,7 @@ const Signup = ({ handleConnect }) => {
     try {
       if (password === confirmPassword) {
         const response = await axios.post(
-          "https://airbnb-cl.herokuapp.com/user/signup",
+          "https://airbnb-backend-cl.herokuapp.com/user/signup",
           formData,
           {
             headers: {

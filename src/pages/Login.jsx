@@ -17,7 +17,7 @@ const Login = ({ handleConnect }) => {
     event.preventDefault();
 
     const response = await axios.post(
-      "https://airbnb-cl.herokuapp.com/user/login",
+      "https://airbnb-backend-cl.herokuapp.com/user/login",
       {
         email: email,
         password: password,

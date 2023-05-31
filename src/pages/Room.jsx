@@ -44,7 +44,7 @@ const Rooms = ({
     const fetchDataRoom = async () => {
       try {
         const response = await axios.get(
-          `https://airbnb-cl.herokuapp.com/rooms/${id}`
+          `https://airbnb-backend-cl.herokuapp.com/rooms/${id}`
         );
         setRoomData(response.data);
         setIsLoading(false);

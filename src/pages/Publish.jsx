@@ -63,7 +63,7 @@ const Publish = ({ userToken }) => {
 
     try {
       const response = await axios.post(
-        "https://airbnb-cl.herokuapp.com/room/publish",
+        "https://airbnb-backend-cl.herokuapp.com/room/publish",
         formData,
         {
           headers: {

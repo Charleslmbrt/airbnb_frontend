@@ -42,7 +42,7 @@ function App() {
     const userInfosData = async () => {
       try {
         const response = await axios.get(
-          `https://airbnb-cl.herokuapp.com/user/${userId}`,
+          `https://airbnb-backend-cl.herokuapp.com/user/${userId}`,
           {
             headers: {
               authorization: `Bearer ${userToken}`,
@@ -64,7 +64,7 @@ function App() {
       if (userToken && userId) {
         try {
           const response = await axios.get(
-            `https://airbnb-cl.herokuapp.com/user/${userId}/favorites`,
+            `https://airbnb-backend-cl.herokuapp.com/user/${userId}/favorites`,
             {
               headers: {
                 authorization: `Bearer ${userToken}`,
@@ -99,7 +99,7 @@ function App() {
 
     try {
       await axios.post(
-        `https://airbnb-cl.herokuapp.com/rooms/favorites/${roomId}`,
+        `https://airbnb-backend-cl.herokuapp.com/rooms/favorites/${roomId}`,
         null,
         {
           headers: {
@@ -109,7 +109,7 @@ function App() {
       );
 
       const updatedFavorites = await axios.get(
-        `https://airbnb-cl.herokuapp.com/user/${userId}/favorites`,
+        `https://airbnb-backend-cl.herokuapp.com/user/${userId}/favorites`,
         {
           headers: {
             authorization: `Bearer ${userToken}`,
@@ -134,7 +134,7 @@ function App() {
   const handleRemoveFromFavorites = async (roomId) => {
     try {
       await axios.delete(
-        `https://airbnb-cl.herokuapp.com/rooms/favorites/delete/${roomId}`,
+        `https://airbnb-backend-cl.herokuapp.com/rooms/favorites/delete/${roomId}`,
         {
           headers: {
             authorization: `Bearer ${userToken}`,
